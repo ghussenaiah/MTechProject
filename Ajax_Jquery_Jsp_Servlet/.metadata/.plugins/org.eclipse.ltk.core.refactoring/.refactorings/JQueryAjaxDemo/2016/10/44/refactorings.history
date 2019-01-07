@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;JQueryAjaxDemo/WebContent/index1.jsp&apos; to &apos;indexJson.jsp&apos;" description="Rename resource &apos;index1.jsp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="WebContent/index1.jsp" name="indexJson.jsp" stamp="1477215711394" updateReferences="true"/>
+</session>

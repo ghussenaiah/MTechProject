@@ -1,0 +1,3 @@
+Name    = er
+Age     = 3434
+Salary  = 5000.00

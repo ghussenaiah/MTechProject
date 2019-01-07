@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="com.mysql.jdbc.Statement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="com.mysql.jdbc.Connection"/>
+<fullyQualifiedTypeName name="org.dailywtf.string.IndexWrapper"/>
+<fullyQualifiedTypeName name="action.WholeWordIndexFinder"/>
+<fullyQualifiedTypeName name="java.org.dailywtf.string.IndexWrapper"/>
+<fullyQualifiedTypeName name="action.mail_Send0"/>
+<fullyQualifiedTypeName name="java.util.AbstractCollection"/>
+</qualifiedTypeNameHistroy>

@@ -1,0 +1,36 @@
+create manula jar file
+1>create own class
+----------------------------------------------------
+package com.outside;
+public class Simple{  
+   
+public String getService()
+{
+   return "Hello from outside class";
+}  
+-------------------------------------------------------
+compile
+
+javac -d . Simple.java
+---------------------------------------------------------
+convert jar file
+
+jar cvf simple.jar com/outside/Simple.class
+
+-----------------------------------------------------------
+create dependency
+
+mvn install:install-file -Dfile=K:\simple.jar -DgroupId=david -DartifactId=husen -Dversion=0.1 -Dpackaging=jar
+
+-----------------------------------------------------------------------------------
+after it will add to repository automatically
+-----------------------------------------------------
+
+
+add that dependecy to another project
+as <dependency> 
+<groudId><groudId>
+   <artifactId><artifactId>
+   <version><version>
+</dependency>
+------------------------------------------------------------------------------------

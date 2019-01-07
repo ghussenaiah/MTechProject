@@ -1,0 +1,5 @@
+package TestMultiPriority;
+
+public class TestDaemonThread1 {
+
+}

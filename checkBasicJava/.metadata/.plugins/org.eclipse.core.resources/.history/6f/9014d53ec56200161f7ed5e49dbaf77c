@@ -1,0 +1,53 @@
+
+public class ToString { //class Tostring extends object
+	
+
+		 int rollno;  
+		 String name;  
+		 String city;  
+		  
+		 ToString(int rollno, String name, String city){  
+		 this.rollno=rollno;  
+		 this.name=name;  
+		 this.city=city;  
+		 }
+		 //it prints class name followed by some hash code like 
+		 /* ToString@15db9742
+		 ToString@6d06d69c
+		 
+		  //If you want to represent any object as a string, toString() method comes into existence.
+		 The toString() method returns the string representation of the object.
+
+		 If you print any object, java compiler internally invokes the toString()
+		 method on the object. So overriding the toString() method, returns the desired output,
+		 it can be the state of an object etc. depends on your implementation.
+
+		 Advantage of Java toString() method
+
+		 By overriding the toString() method of the Object class, we can return values of the object,
+				 so we don't need to write much code.
+				 As you can see in the above example, printing s1 and s2 prints the 
+				 hashcode values of the objects but I want to print the values of these objects.
+				  Since java compiler internally calls toString() method, 
+				 overriding this method will return the specified values.
+				  Let's understand it with the example given below:
+				 */
+		 //write the following code here that will return the values of object values
+		 //execute pro with and without following method
+	//	 public String toString(){//overriding the toString() method  
+	//		  return rollno+" "+name+" "+city;  }  
+		 
+		 public static void main(String args[]){ 
+			 
+			 ToString s1=new ToString(101,"Raj","lucknow");  
+			 ToString s2=new ToString(102,"Vijay","ghaziabad");  
+		     
+		   System.out.println(s1); //compiler writes here s1.toString()  
+		   System.out.println(s2); //compiler writes here s2.toString() 
+		   //we can access object values using objectname.variablename
+		   System.out.println(s1.name+"\n  rono" +s1.rollno+"\n city" +s1.city);
+		   
+		 
+		}  
+
+}

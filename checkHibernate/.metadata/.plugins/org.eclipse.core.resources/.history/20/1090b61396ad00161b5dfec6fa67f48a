@@ -1,0 +1,23 @@
+
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class name="beans.Employee" table="Employee007" schema="david">
+
+    <id name="id"/>
+ 
+ <discriminator column="etype"/>
+ 
+
+<property name="name"/>
+<property name="email"/>
+<property name="salary"/>
+<subclass name="beans.SEmployee"  discriminator-value="se" >
+<property name="tool"/>
+</subclass>
+
+</class>
+
+</hibernate-mapping>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">
+		
+		
+<beans>
+
+<bean id="t" class="beans.Test">
+ <property name="fruits">
+<list>
+<value>Audicccc</value>
+<value>Benzzzzz</value>
+<value>Hondacccc</value>
+</list>
+</property> 
+
+<property name="cricketers">
+<set>
+<value>Audi</value>
+<value>Benz</value>
+<value>Audi</value>
+</set>
+</property>
+
+<property name="cc">
+<map>
+<entry key="ind" value="india"/>
+<entry key="pak" value="pakistan"/>
+<entry key="sri" value="srilanka"/>
+</map>
+</property>
+
+
+</bean>
+
+
+</beans>

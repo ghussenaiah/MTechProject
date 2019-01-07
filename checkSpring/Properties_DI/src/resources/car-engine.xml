@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">
+		
+		
+<beans>
+
+<bean id="t" class="beans.Test">
+
+
+<property name="driver">
+<props>
+
+<prop key="driver class">oracle.jdbc.jdbc-odbc</prop>
+<prop key="url">oracle url</prop>
+<prop key="username">root</prop>
+<prop key="password">root</prop>
+</props>
+</property>
+
+
+
+</bean>
+
+
+</beans>

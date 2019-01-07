@@ -1,0 +1,39 @@
+2016-08-21 14:45:54,018 [Worker-13] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.onlinetutorialspoint:HibernateMaven:1.0-SNAPSHOT @ C:\Users\DavidHusen\Desktop\HibernateMaven\pom.xml.
+2016-08-21 14:45:54,220 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/org/hibernate/hibernate-core/5.0.0.CR1/hibernate-core-5.0.0.CR1.pom
+2016-08-21 14:46:06,532 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/hibernate/hibernate-core/5.0.0.CR1/hibernate-core-5.0.0.CR1.pom
+2016-08-21 14:46:06,588 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/org/hibernate/hibernate-entitymanager/4.1.8.Final/hibernate-entitymanager-4.1.8.Final.pom
+2016-08-21 14:46:06,606 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/hibernate/hibernate-entitymanager/4.1.8.Final/hibernate-entitymanager-4.1.8.Final.pom
+2016-08-21 14:46:06,631 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/org/hibernate/hibernate-osgi/5.0.0.CR1/hibernate-osgi-5.0.0.CR1.pom
+2016-08-21 14:46:06,642 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/hibernate/hibernate-osgi/5.0.0.CR1/hibernate-osgi-5.0.0.CR1.pom
+2016-08-21 14:46:06,665 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/org/hibernate/hibernate-envers/5.0.0.CR1/hibernate-envers-5.0.0.CR1.pom
+2016-08-21 14:46:06,677 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/hibernate/hibernate-envers/5.0.0.CR1/hibernate-envers-5.0.0.CR1.pom
+2016-08-21 14:46:06,700 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/org/hibernate/hibernate-c3p0/5.0.0.CR1/hibernate-c3p0-5.0.0.CR1.pom
+2016-08-21 14:46:06,710 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/hibernate/hibernate-c3p0/5.0.0.CR1/hibernate-c3p0-5.0.0.CR1.pom
+2016-08-21 14:46:06,735 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/org/hibernate/hibernate-proxool/5.0.0.CR1/hibernate-proxool-5.0.0.CR1.pom
+2016-08-21 14:46:06,747 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/hibernate/hibernate-proxool/5.0.0.CR1/hibernate-proxool-5.0.0.CR1.pom
+2016-08-21 14:46:06,768 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/org/hibernate/hibernate-infinispan/5.0.0.CR1/hibernate-infinispan-5.0.0.CR1.pom
+2016-08-21 14:46:06,777 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/hibernate/hibernate-infinispan/5.0.0.CR1/hibernate-infinispan-5.0.0.CR1.pom
+2016-08-21 14:46:06,792 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/org/hibernate/hibernate-ehcache/5.0.0.CR1/hibernate-ehcache-5.0.0.CR1.pom
+2016-08-21 14:46:06,861 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/hibernate/hibernate-ehcache/5.0.0.CR1/hibernate-ehcache-5.0.0.CR1.pom
+2016-08-21 14:46:06,903 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/unknown/binary/mysql-connector-java-5.1.23-bin/SNAPSHOT/maven-metadata.xml
+2016-08-21 14:46:06,941 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/unknown/binary/mysql-connector-java-5.1.23-bin/SNAPSHOT/mysql-connector-java-5.1.23-bin-SNAPSHOT.pom
+2016-08-21 14:46:06,953 [Worker-13] WARN  o.e.m.c.i.embedder.EclipseLogger - The POM for unknown.binary:mysql-connector-java-5.1.23-bin:jar:SNAPSHOT is missing, no dependency information available
+2016-08-21 14:46:06,997 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded file:C:\Users\DavidHusen\Desktop\HibernateMaven/lib/commons-codec/commons-codec/1.2/commons-codec-1.2.pom
+2016-08-21 14:46:07,008 [Worker-13] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.2/commons-codec-1.2.pom
+2016-08-21 14:46:11,918 [Worker-13] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HibernateMaven/src/main/java
+2016-08-21 14:46:11,920 [Worker-13] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /HibernateMaven/src/main/resources
+2016-08-21 14:46:12,022 [Worker-13] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HibernateMaven/src/test/java
+2016-08-21 14:46:13,090 [Worker-13] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 1 project(s) in 32 sec
+2016-08-21 14:46:14,260 [Worker-1] WARN  o.e.m.c.i.embedder.EclipseLogger - The POM for unknown.binary:mysql-connector-java-5.1.23-bin:jar:SNAPSHOT is missing, no dependency information available
+2016-08-21 14:46:14,330 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-08-21 14:46:14,350 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2016-08-21 14:46:14,360 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-08-21 14:46:14,365 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\DavidHusen\Desktop\HibernateMaven\src\test\resources
+2016-08-21 14:47:36,235 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-08-21 14:47:36,264 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-08-21 14:47:36,273 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-08-21 14:47:36,281 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\DavidHusen\Desktop\HibernateMaven\src\test\resources
+2016-08-21 14:48:12,144 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-08-21 14:48:12,150 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-08-21 14:48:12,156 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-08-21 14:48:12,160 [Worker-18] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\DavidHusen\Desktop\HibernateMaven\src\test\resources

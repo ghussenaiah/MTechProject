@@ -1,0 +1,139 @@
+
+.kagami-magin-top-1{
+	margin-top:1%;
+}
+.kagami-magin-top-3{
+  margin-top:3%;
+}
+.alert-error {
+	color: #151414;
+	background-color: #FDEBEB;
+	border-color: #EA0738;
+}
+html, body {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-size: 16px;
+}
+img {
+    width: 100%;
+}
+a.signuplink, a.signuplink:link {
+    color: #337ab7;
+    font-size: 14px;
+    text-decoration: underline;
+}
+.carousel-inner>.item>a>img, .carousel-inner>.item>img {
+  width:500px;  
+}
+
+.col-height {
+    
+}
+.form-inline .form-group {
+    margin-bottom: 20px;
+}
+.form-inline .form-control,
+.form-inline .form-group {
+    width: 100%;
+}
+form {
+  background: white;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
+  position: relative;
+  color: #333;
+  border-radius: 10px;
+}
+form header {
+  /*background: rgba(34, 135, 191, 0.36);*/
+  background: #B7C9D3;  
+  padding: 30px 20px;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 600;
+  border-radius: 10px 10px 0 0;
+      margin-bottom: 20px;
+}
+form label {
+  margin-left: 20px;
+  display: inline-block;
+  margin-top: 30px;
+  margin-bottom: 5px;
+  position: relative;
+}
+form label span {
+  color: #FF3838;
+  font-size: 2em;
+  position: absolute;
+  left: 2.3em;
+  top: -10px;
+}
+form inputss {
+  display: block;
+  width: 78%;
+  margin-left: 20px;
+  padding: 5px 20px;
+  font-size: 1em;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid #ccc;
+}
+form .help {
+  margin-left: 20px;
+  font-size: 0.8em;
+  color: #777;
+}
+
+.form-control-feedback {
+    left: 0;
+}
+.has-feedback .form-control {
+    padding-left: 42.5px;
+}
+form button:hover {
+  background: #ff5252;
+}
+
+.lightbluebg {
+    background: #F4F6F9;
+}
+
+#wrapper {
+    padding: 20% 0px 0px 0px;
+    margin: 0 auto;
+    width: 60%;
+    -moz-transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    -o-transition: all 0.25s;
+    transition: all 0.25s;
+}
+#wrapper .container-fluid{     padding-right: 30px; padding-left: 30px; }
+.logo_wrapper {
+    
+    overflow: hidden;
+    width: 180px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    display: table;
+}
+
+.has-feedback label.sr-only~.form-control-feedback {
+    background: #C1C1C1;
+        border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+
+.showhide-content { display:block; }
+.col-xs-6.mob-col-xs-12 { width:50%; }
+
+@media only screen and (min-width: 200px) and (max-width: 767px) {
+	.showhide-content { display:none; }
+	.col-xs-6.mob-col-xs-12 { width:100%; }
+}

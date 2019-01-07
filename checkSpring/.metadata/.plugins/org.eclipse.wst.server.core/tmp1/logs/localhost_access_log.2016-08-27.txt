@@ -1,0 +1,4 @@
+127.0.0.1 - - [27/Aug/2016:22:01:57 +0530] "GET / HTTP/1.1" 404 951
+0:0:0:0:0:0:0:1 - - [27/Aug/2016:22:02:01 +0530] "GET /Student_Reg_Including_Business_Class_Dao_Class/ HTTP/1.1" 200 440
+0:0:0:0:0:0:0:1 - - [27/Aug/2016:22:02:13 +0530] "GET /Student_Reg_Including_Business_Class_Dao_Class/stusave?id=111&name=ss&email=sss&address=ss HTTP/1.1" 500 18432
+0:0:0:0:0:0:0:1 - - [27/Aug/2016:22:07:30 +0530] "GET /Student_Reg_Including_Business_Class_Dao_Class/stusave?id=1&name=er&email=er&address=er HTTP/1.1" 500 18432

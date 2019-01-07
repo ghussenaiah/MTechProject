@@ -1,0 +1,31 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+
+<property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
+<property name="connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
+<property name="connection.username">david</property>
+<property name="connection.password">root</property>
+<property name="connection.pool_size">10</property>
+
+<property name="dialect">org.hibernate.dialect.OracleDialect</property>
+<property name="hbm2ddl.auto">create</property>
+<!-- create,update,drop,validate,create-drop-->
+<property name="show_sql">true</property>
+
+<!-- this is per table per class -->
+
+<mapping resource="resources/student1.hbm.xml"/>
+
+<!-- this is per table per subclass -->
+
+<mapping resource="resources/student1.hbm.xml"/>
+
+<!-- this is per table per concreat class nothing but no parent table it will create each table for child class with all attributes -->
+<mapping resource="resources/student1.hbm.xml"/>
+
+</session-factory>
+</hibernate-configuration>

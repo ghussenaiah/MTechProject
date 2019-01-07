@@ -1,0 +1,11 @@
+INDEX VERSION 1.127+C:\Users\DavidHusen\workspace\MonDB_Operations\.metadata\.plugins\org.eclipse.jdt.core
+4170612061.index
+3952052653.index
+2627378874.index
+2010121633.index
+2568361804.index
+2545034597.index
+664167656.index
+2646180873.index
+2174252360.index
+3159389441.index

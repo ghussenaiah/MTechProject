@@ -1,0 +1,44 @@
+
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">
+		
+		
+<beans>
+
+<!--simple  -->
+<!-- <bean id="c" class="beans.Car" dependency-check="simple">
+
+<property name="carname" value="Audi"></property>
+</bean> -->
+
+
+<!--  object-->
+<!-- <bean id="e" class="beans.Engine" dependency-check="simple">
+<property name="modelyear" value="2005"></property>
+</bean>
+
+<bean id="c" class="beans.Car" dependency-check="objects">
+
+<property name="carname" value="Audi"></property>
+
+<property name="engine" ref="e"></property>
+</bean>  -->
+
+
+
+<!-- all -->
+<bean id="e" class="beans.Engine" dependency-check="simple">
+<property name="modelyear" value="2005"></property>
+</bean>
+
+<bean id="c" class="beans.Car" dependency-check="all">
+
+ <property name="carname" value="Audi"></property> 
+
+<property name="engine" ref="e"></property>
+</bean> 
+
+
+
+</beans>

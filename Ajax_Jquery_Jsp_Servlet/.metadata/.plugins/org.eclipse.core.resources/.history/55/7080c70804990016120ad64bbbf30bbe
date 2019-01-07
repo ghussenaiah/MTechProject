@@ -1,0 +1,17 @@
+package ajaxdemo;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/Ajax_Get_JsonObject")
+public class Ajax_Get_JsonObject extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+  
+
+}

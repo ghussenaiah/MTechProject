@@ -1,0 +1,46 @@
+
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">
+		
+<beans>
+       <!--  <bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+      <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>  -->
+	   <!--	 <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> 
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="system"/>
+		<property name="password" value="root"/>
+		<property name="maxActive" value="15"/>
+		<property name="maxIdle" value="5"/>
+		<property name="maxWait" value="5000"/>
+		</bean>   
+		
+		-->
+		
+		<!--  perfect working with mysql
+		<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/test" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+	
+	-->
+		<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="system" />
+		<property name="password" value="root" />
+	</bean>
+		
+		
+		<bean id="dao" class="dao.StdentDaoImp">
+		<property name="ds" ref="ds"/>
+		</bean>
+		
+		<bean id="stbi" class="business.StudentBImple">
+		<property name="dao" ref="dao"/>
+		</bean>
+		
+</beans>
+		

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="ExternalProjectImportWizard">
+		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
+		<item value="true" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="D:\Honeywell Project\TestProject2"/>
+			<item value="D:\Honeywell Project\codezone6"/>
+			<item value="D:\Honeywell Project\codezone5"/>
+			<item value="D:\All Language Programs\Eclise Programs\codezone4"/>
+			<item value="D:\All Language Programs\Eclise Programs\Mail"/>
+			<item value="D:\All Language Programs\Eclise Programs\MySqlConnection"/>
+			<item value="D:\All Language Programs\Eclise Programs\TestProject4"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
+		</list>
+	</section>
+</section>

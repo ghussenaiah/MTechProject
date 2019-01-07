@@ -1,0 +1,16 @@
+127.0.0.1 - - [19/Sep/2016:23:42:09 +0530] "GET / HTTP/1.1" 404 951
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:42:11 +0530] "GET /KagamiAuthService/ HTTP/1.1" 200 5602
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:42:12 +0530] "GET /KagamiAuthService/js/authApp.js HTTP/1.1" 200 889
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:42:12 +0530] "GET /KagamiAuthService/js/authenticationService.js HTTP/1.1" 200 928
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:42:12 +0530] "GET /KagamiAuthService/js/LoginController.js HTTP/1.1" 200 1234
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:42:12 +0530] "GET /css/kagami-app.css HTTP/1.1" 404 987
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:42:12 +0530] "GET /css/font-awesome.css HTTP/1.1" 404 991
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:42:13 +0530] "GET /images/Kagami_Logo.png HTTP/1.1" 404 995
+127.0.0.1 - - [19/Sep/2016:23:43:36 +0530] "GET / HTTP/1.1" 404 951
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:43:36 +0530] "GET /KagamiAuthService/ HTTP/1.1" 200 5602
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:43:36 +0530] "GET /KagamiAuthService/js/authApp.js HTTP/1.1" 200 889
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:43:36 +0530] "GET /KagamiAuthService/js/authenticationService.js HTTP/1.1" 200 928
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:43:36 +0530] "GET /css/font-awesome.css HTTP/1.1" 404 991
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:43:36 +0530] "GET /KagamiAuthService/js/LoginController.js HTTP/1.1" 200 1234
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:43:36 +0530] "GET /css/kagami-app.css HTTP/1.1" 404 987
+0:0:0:0:0:0:0:1 - - [19/Sep/2016:23:43:36 +0530] "GET /images/Kagami_Logo.png HTTP/1.1" 404 995

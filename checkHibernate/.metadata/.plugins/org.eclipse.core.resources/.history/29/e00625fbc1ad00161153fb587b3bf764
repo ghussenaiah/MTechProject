@@ -1,0 +1,61 @@
+package test;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import beans.Actor;
+import beans.Cource;
+import beans.Faculty;
+import beans.Movies;
+
+
+
+
+
+
+
+
+public class Client {
+
+	public static void main(String args[]){
+	try{
+Configuration cfg=new Configuration();
+	
+	cfg.configure("resources/hibernate.cfg.xml");
+                                                
+	SessionFactory ss=cfg.buildSessionFactory();
+
+	   Session sss= ss.openSession();
+	   Transaction t= sss.beginTransaction();
+	   
+	Cource c1=new Cource();
+	Cource c2=new Cource();
+	Cource c3=new Cource();
+	Cource c4=new Cource();
+	Cource c5=new Cource();
+	
+	
+	Faculty f1=new Faculty();
+	   
+   //  sss.save(m1);
+  //   sss.save(m2);  if i add cascade option in actor.hbm.xml file
+	   //then there is no need to save m1 and m2
+    
+       t.commit();                    
+      
+       
+       
+       
+	   sss.close();ss.close();
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+}
+}

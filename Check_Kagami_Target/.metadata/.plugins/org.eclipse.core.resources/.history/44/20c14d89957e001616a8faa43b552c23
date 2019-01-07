@@ -1,0 +1,4 @@
+authServer=http://192.168.1.55:8085/KagamiAuthService/auth/loginPage
+authValidateServer=http://192.168.1.55:8085/KagamiAuthService/auth/auth/validate
+hostUrl=http://localhost:8080/kagami-erp-generated/verb
+getUSer=http://192.168.1.55:8085/KagamiAuthService/auth/auth/getUser;

@@ -1,0 +1,16 @@
+package Date;
+
+import java.text.DateFormat;  
+
+import java.sql.Date;
+public class DateFormatExample3 {  
+    public static void main(String[] args)throws Exception {  
+    	SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy",
+                Locale.ENGLISH);
+
+
+Date parsedDate = sdf.parse(date);
+SimpleDateFormat print = new SimpleDateFormat("MMM d, yyyy HH:mm:ss");
+System.out.println(print.format(parsedDate));
+    }  
+}  

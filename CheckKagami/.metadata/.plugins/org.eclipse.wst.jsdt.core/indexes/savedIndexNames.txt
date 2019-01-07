@@ -1,0 +1,8 @@
+INDEX VERSION 1.3+C:\Users\DavidHusen\workspace\CheckKagami\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2100033081.index
+222416819.index
+3549055653.index
+446550944.index
+2378417384.index
+3300474554.index
+906621248.index

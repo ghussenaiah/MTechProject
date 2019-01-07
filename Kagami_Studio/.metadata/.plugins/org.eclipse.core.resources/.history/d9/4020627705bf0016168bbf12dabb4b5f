@@ -1,0 +1,612 @@
+<div class="" ng-controller="EntityBuilderController as tab" id="EntityBuilderController">
+    <div class="row whitebg nomargin">
+        <div class="col-md-2 minheight35 listbg" id="leftcolumn">
+            <h3>Entities
+                <a class="pull-right ten-fontsize cursor-pointer" ng-click="createEntity()">Add New
+                    <span class="glyphicon glyphicon-plus-sign"></span></a></h3>
+            <div class="form-group has-feedback">
+                <input type="text" ng-model="params.searchEntity" class="form-control searchtextcontrol" placeholder="Search Entity...">
+                <span ng-if="params.searchEntity" ng-click="clearText()"
+                      class="glyphicon glyphicon-remove form-control-feedback searchicon"></span>
+                <div ng-if="!displaysearchtextnotfound.length" class="searchtextnotfound">
+                    Nothing was found
+                </div>
+            </div>
+            <ul class="leftcolumnlist">
+                <li ng-repeat="entity in entities | filter:params.searchEntity as displaysearchtextnotfound"
+                    class="">
+                    <div ng-click="isentityoptionsOpen = !isentityoptionsOpen" style="width: 100%;">
+                        <a class="cursor-pointer ellipis" ng-click="editEntity(entity);" uib-tooltip="{{entity.entityName}}">{{entity.entityName}}</a>
+                        <a ng-click="deleteentity(entity)" class="pull-right">
+                             <span class="glyphicon glyphicon-remove redtext"></span></a>
+                    </div>
+
+                </li>
+            </ul>
+            <div style="clear:both;"><br/></div>
+        </div>
+
+
+        <div class="col-md-10 whitebg minheight350" id="rightcolumn">
+
+
+            <div class="minheight350" ng-show="mode == 'create' || mode == 'edit'">
+
+
+                <div class="col-md-12 ashborder">
+                    <h4>
+                        <a ng-if="mode == 'create'">
+                            Create Entity
+                        </a>
+                        <a ng-if="mode == 'edit'">
+                            Edit Entity
+                        </a>
+                        <a ng-if="mode == 'edit'" href ng-click="relEntity();"
+                        class="btn btn-primary pull-right">Edit/View Relation</a>
+                    </h4>
+                    <hr/>
+                    <br/>
+                    <!--<form class="go-bottom">
+                        <div>
+                            <input id="name" name="name" type="text" required>
+                            <label for="name">Your Name</label>
+                        </div>
+                    </form>-->
+
+
+
+                    <form novalidate name="createentityform">
+                        <div class="row">
+                            <div class="col-md-6 nopadding">
+                                <div class="form-group">
+                                    <label for="entityName">Entity Name</label>
+                                    <input type="text" class="form-control capitalize" name="entityName" id="entityName"
+                                           ng-model="newEntity.entityName"
+                                           placeholder="Entity Name"
+                                           ng-change="newEntityNameChanged()"
+                                          ng-model-options="{debounce: 200}"
+                                           ng-minlength="3"
+                                           ng-maxlength="64"
+                                           ng-pattern="/^[a-zA-Z_]+$/" required/>
+                                    <!--ng-pattern="/^[a-zA-Z]*$/"-->
+                                    <div class="haserror " ng-if="entityNameFound">
+                                        * Entity Name already exists...</div>
+                                        
+                                    <!--<div class="haserror" ng-if="createentityform.entityName.$error.required">
+                                        *Please enter a valid Entity Name...</div>-->
+                                    <div class="haserror" ng-if="createentityform.entityName.$error.pattern">
+                                        *Please enter a valid Entity Name without numerics/symbols/spaces...</div>
+                                    <div ng-if="createentityform.entityName.$error.minlength" class="haserror">Entity Name is too short.</div>
+                                    <div ng-if="createentityform.entityName.$error.maxlength" class="haserror">Entity Name is too long.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="control-label input-group">Entity Type</label>
+                            <div class="" data-toggle="buttons" ng-init="mode=='create' ? newEntity.master = false : false">
+                                <label>
+                                    <input name="entityrelationtype" type="radio"
+                                           ng-model="newEntity.master"
+                                           ng-value="true"
+                                           ng-click="SetAsMasterEntity()"> Master
+                                </label>
+                                <label>
+                                    <input name="entityrelationtype" type="radio"
+                                           ng-model="newEntity.master"
+                                           ng-value="false"
+                                           ng-click="SetAsMasterEntity()"> Transaction
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <h5><a>Add Attribute</a></h5>
+
+                        <div class="row attrrow">
+
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Attribute Name</th>
+                                    <th>Attribute Type</th>
+                                    <!--<th ng-show="defaultattribute">Default Attribute</th>-->
+                                    <th>Validations</th>
+                                    <th ng-show="minmaxcolumn"></th>
+                                    <th>Default Value</th>
+                                    <th>PK</th>
+                                    <th>UQ</th>
+                                    <th>AG</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                             
+                                <tr ng-repeat="attribute in newEntity.attributes track by $index" ng-init="subForm='tags'+$index">
+                                   
+                                    <td>
+                                    <ng-form name="{{subForm}}">
+                                    	<input type="text" class="form-control" name="attributeName"
+                                               id="attributeName" ng-model="attribute.name"
+                                               ng-change="attributenamechange(attribute)"
+                                               ng-focus="attributeNameFocused(attribute)"
+                                               ng-model-options="{debounce: 200}"
+                                               placeholder="Attribute Name"
+                                               ng-disabled="$first"
+                                               ng-pattern="/^[a-zA-Z]+$/" required/>                                               
+                                        <!--maxlength="30" ng-pattern="/^[a-zA-Z0-9\-\s]+$/"-->
+                                        <div ng-model="duplicate" class="haserror" ng-if="attribute.name != null && duplicateAttr(attribute.name, $index)">
+                                             *Attribute already exists</div>
+                                     <div class="haserror" ng-show="
+                                     createentityform[subForm].attributeName.$invalid">
+                                             *Please enter valid attribute name</div>                                             
+                                              <div  class="haserror" ng-show="createentityform[subForm].attributeName.$error.pattern">
+                                             *No Special symbol(s)/space(s)</div>
+                                              <div class="haserror" ng-if="attribute.name != null && casesensitiveAttr(attribute.name, $index)">
+                                             *No case sensitive allowed</div>
+                                          </ng-form>   
+                                            
+                                              
+                                    </td>
+                                    <td>
+                                        <select class="form-control" name="attributeType" id="attributeType" required
+                                         ng-model="attribute.type" ng-change="showSelectValue(attribute)">
+                                            <option value="text">Text</option>
+                                            <option value="number">Number</option>
+                                            <option value="date">date</option>
+                                            <option value="file">file</option>
+                                            <option value="digits">digits</option>
+                                            <option value="boolean">Boolean</option>
+                                        </select>
+                                        <!--<option selected disabled value="">&#45;&#45; Select Attribute Type &#45;&#45;</option>-->
+                                        <div class="haserror" ng-if="createentityform.attributeType.$dirty.required">
+                                            This field is required
+                                        </div>
+                                    </td>
+                                    <td class="nopadding">
+                                        <table class="tableborder" style="margin: 0 auto;">
+                                            <tr>
+                                                <td class="td_border_right">
+                                                    <!--<p class="nomargin"><label
+                                                            for="attributeValidationtypenn">NN</label></p>-->
+                                                    <label for="attributeValidationtypenn">NN</label>
+                                                    <input type="checkbox" class="" name="attributeValidationtypenn"
+                                                           id="attributeValidationtypenn" ng-true-value="'notNull'"
+                                                           ng-false-value="null"
+                                                           ng-model="attribute.validations[0].validationType" /></td>
+                                                <td class="td_border_right" ng-show="attribute.type == 'number'">
+                                                    <label for="attributeValidationtyperange">Range</label>
+                                                    <input type="checkbox" class="" name="attributeValidationtyperange"
+                                                           id="attributeValidationtyperange"
+                                                           ng-change="attributeTyperange(attribute)"
+                                                           ng-true-value="'range'"
+                                                           ng-false-value="null"
+                                                           ng-model="attribute.validations[1].validationType">
+                                                </td>
+                                                <td class="td_border_right" ng-if="attribute.type == 'date'">
+                                                    <table>
+                                                        <td>
+                                                            <p class="nomargin"><label for="mindate{{$index}}">PDate</label>
+                                                            </p>
+                                                            <input type="radio" class="" ng-value="'past'"
+                                                                   name="mindate{{$index}}" id="mindate{{$index}}"
+                                                                   ng-model="attribute.validations[1].validationType"
+                                                                   ng-change="setpastdate(attribute)"/>
+                                                        </td>
+                                                        <td>&nbsp;</td>
+                                                        <td><p class="nomargin"><label for="maxdate{{$index}}">FDate</label>
+                                                        </p>
+                                                            <input type="radio" class="" ng-value="'future'"
+                                                                   name="maxdate{{$index}}" id="maxdate{{$index}}"
+                                                                   ng-model="attribute.validations[1].validationType"
+                                                                   ng-change="setpastdate(attribute)" />
+                                                        </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <!--<td class="td_border_right" ng-if="attribute.type == 'dateTime'">
+                                                    <table>
+                                                        <td>
+                                                            <p class="nomargin"><label for="mindatetime{{$index}}">PDate</label>
+                                                            </p>
+                                                            <input type="radio" class="" ng-value="'past'"
+                                                                   name="mindatetime{{$index}}" id="mindatetime{{$index}}"
+                                                                   ng-model="attribute.validations[1].validationType"
+                                                                   ng-change="setpastdatetime(attribute)"/>
+                                                        </td>
+                                                        <td>&nbsp;</td>
+                                                        <td><p class="nomargin"><label for="maxdatetime{{$index}}">FDate</label>
+                                                        </p>
+                                                            <input type="radio" class="" ng-value="'future'"
+                                                                   name="maxdatetime{{$index}}" id="maxdatetime{{$index}}"
+                                                                   ng-model="attribute.validations[1].validationType"
+                                                                   ng-change="setpastdatetime(attribute)" />
+                                                        </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>-->
+                                        </table>
+                                    </td>
+                                    <td class="nopadding" ng-show="minmaxcolumn">
+                                        <table ng-show="attribute.type == 'number'">
+                                            <td class="td_border_right"><label style="display: block;">Min</label>
+                                                <input type="text" class="form-control"
+                                                       name="attributeValidationtypemin" style="width: 60px; display: inline-block;"
+                                                       id="attributeValidationtypemin"
+                                                       ng-value="attribute.validations[1].validationValue.min"
+                                                       ng-model="attribute.validations[1].validationValue.min" ng-disabled="!attribute.validations[1].validationType">
+                                            </td>
+                                            <td style="vertical-align: bottom;"><strong>-</strong></td>
+                                            <td class="td_border_right"><label style="display: block;">Max</label>
+                                                <input type="text" class="form-control"
+                                                       name="attributeValidationtypemax" style="width: 60px;display: inline-block;"
+                                                       id="attributeValidationtypemax"
+                                                       ng-value="attribute.validations[1].validationValue.max"
+                                                       ng-model="attribute.validations[1].validationValue.max" ng-disabled="!attribute.validations[1].validationType"></td>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <td ng-if="attribute.type=='text'">
+                                                <input type="text" class="form-control" name="onlytext"
+                                                       ng-change="attributedefaultValuetext(attribute)"
+                                                       ng-model="attribute.defaultValue"
+                                                       ng-model-options="{debounce: 0}"
+                                                       placeholder="Default Value">
+                                                <!--<span ng-show="(createentityform.onlytext.$dirty || submitted) &&
+                                                createentityform.onlytext.$error.required"
+                                                      class="haserror">Enter default value...</span>-->
+                                            </td>
+                                            <td ng-if="attribute.type=='number'">
+                                                   <input type="text" class="form-control" name="onlynumbers"
+                                                       ng-change="attributedefaultValuenumber(attribute)"
+                                                       ng-model="attribute.defaultValue"
+                                                       ng-model-options="{debounce: 300}"
+                                                       placeholder="Default Value"
+                                                       ng-pattern="numbersonly" 
+                                                     /> 
+                                           <!--   <input type="text" class="form-control" name="onlynumbers"
+                                                       ng-pattern="numbersonly"
+                                                       ng-change="attributedefaultValuenumber(attribute)"
+                                                       ng-model="attribute.defaultValue"
+                                                       ng-model-options="{debounce: 300}"
+                                                       placeholder="Default Value"
+                                                       ng-min="attribute.validations[1].validationValue.min"
+                                                       ng-max="attribute.validations[1].validationValue.max"
+                                                       required/> -->
+                                                       <!--<div ng-show="createentityform.onlynumbers.$invalid">enter only numbers...</div>-->
+                                                          <div ng-if="isValidRange(attribute)"
+                                                          
+                                                      class="haserror">Please enter min/max number only...
+                                                  
+                                                 <!--  &&
+                                                (createentityform.onlynumbers.$invalid ||
+                                                 (attribute.defaultValue < attribute.validations[1].validationValue.min &&
+                                                attribute.defaultValue > attribute.validations[1].validationValue.max)) -->    
+                                                  
+                                                      </div>
+                                                <span ng-if="createentityform.onlynumbers.$error.pattern" class="haserror">Enter only number...</span>
+                                            <!--<div ng-if="createentityform.onlynumbers.$dirty &&
+                                                createentityform.onlynumbers.$invalid ||
+                                                (attribute.defaultValue <= attribute.validations[1].validationValue.min &&
+                                                attribute.defaultValue >= attribute.validations[1].validationValue.max) ||
+                                                createentityform.onlynumbers.$error.required"
+                                                      class="haserror">Please enter min/max number only...</div>-->
+                                            </td>
+                                            <td ng-if="attribute.type=='date' && attribute.validations[1].validationType!=null">
+                                                <div class="form-group has-feedback">
+                                                    <input type="text" class="form-control" name=""
+                                                           ng-if="attribute.validations[1].validationType== 'past'"
+                                                           id="calenderpast{{$index}}" data-ns-focus-id="calenderpast{{$index}}"
+                                                           ng-click="attributedefaultValuedate(attribute,$index); $event.stopPropagation();"
+                                                           ng-model="attribute.defaultValue"
+                                                           placeholder="Default Value" required readonly="readonly" />
+                                                    <i class="fa fa-calendar form-control-feedback"></i>
+                                                    <input type="text" class="form-control" name=""
+                                                           ng-if="attribute.validations[1].validationType== 'future'"
+                                                           id="calenderfuture{{$index}}" data-ns-focus-id="calenderfuture{{$index}}"
+                                                           ng-click="attributedefaultValuedatefuture(attribute,$index); $event.stopPropagation();"
+                                                           ng-model="attribute.defaultValue"
+                                                           placeholder="Default Value" required readonly="readonly" />
+                                                    <i class="fa fa-calendar form-control-feedback"></i>
+                                                </div>
+                                            </td>
+                                            <td ng-if="attribute.type=='file'">
+                                                <input type="text" class="form-control" name=""
+                                                       ng-change="attributedefaultValue(attribute)"
+                                                       ng-model="attribute.defaultValue"
+                                                       ng-model-options="{debounce: 200}"
+                                                       placeholder="Default Value">
+                                            </td>
+                                            <!--<td ng-if="attribute.type=='dateTime'">
+                                                <div class="form-group has-feedback">
+                                                    <input type="text" class="form-control" name="" calendar
+                                                           id="attributedatetime" data-ns-focus-id="attributedatetime"
+                                                           ng-change="attributedefaultValuedatetime(attribute)"
+                                                           ng-model="attribute.defaultValue"
+                                                           ng-model-options="{debounce: 200}"
+                                                           placeholder="Default Value" required/>
+                                                    <i class="fa fa-calendar form-control-feedback"></i>
+                                                </div>
+                                            </td>-->
+                                            <td ng-if="attribute.type=='digits'">
+                                                <input type="text" class="form-control" name="digitsonly"
+                                                       ng-pattern="digitsonly"
+                                                       ng-change="attributedefaultValue(attribute)"
+                                                       ng-model="attribute.defaultValue"
+                                                       ng-model-options="{debounce: 200}"
+                                                       placeholder="Default Value"/>
+                                                <span ng-show="createentityform.digitsonly.$error.pattern" class="haserror">Enter only digits...</span>
+                                            </td>
+                                            <td ng-if="attribute.type=='boolean'">
+                                                <select class="form-control" name=""
+                                                        ng-change="attributedefaultValueboolean(attribute)"
+                                                        ng-model="attribute.defaultValue"
+                                                        ng-model-options="{debounce: 200}">
+                                                            <option value="false">False</option>
+                                                            <option value="true">True</option>
+                                                </select>
+                                            </td>
+                                        </table>
+
+                                    </td>
+                                    <td>
+                                        <input type="radio" class="" name="attributeprimarykey"
+                                               ng-checked="newEntity.persistenceRules.primaryKeys[0] == attribute.name"
+                                               ng-value="attribute.name" ng-click="setAsPrimaryKey(attribute)" 
+                                               />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="" name="attributeuniqueKeys"
+                                               id="attributeuniqueKeys"
+                                               ng-model="attribute.uniqueKeys"
+                                               ng-click="setAsUniqueKey(attribute)">
+                                    </td>
+                                    <td>
+                                        <a class="autogenpopupover" ng-click="openAutoGenPopover(attribute); showPopover=true;"
+                                           ng-mouseleave="showPopover=false" >{{autogenTitle}}
+                                            <div class="popover autogen_popover" ng-show="showPopover">
+                                                <div class="arrow"></div>
+                                                    <div class="popover-inner">
+                                                        <h3 class="popover-title">
+                                                            {{ popover.title }}
+                                                        </h3>
+                                                        <div class="popover-content">
+                                                            <div class="form-group">
+                                                                <label for="prefix">prefix:</label>
+                                                                <input type="text" ng-model="attribute.attributeautogenprefix"
+                                                                       class="form-control" id="prefix"
+                                                                placeholder="Enter Your Prefix">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="keyAttribute">keyAttribute:</label>
+                                                                <input type="text" ng-model="attribute.attributeautogen" disabled
+                                                                       class="form-control" id="keyAttribute">
+                                                            </div>
+                                                            <button type="button" ng-click="addAsAutogeneration(attribute);"
+                                                             ng-mouseleave="showPopover=false";
+                                                                    ng-disabled="!attribute.attributeautogenprefix"
+                                                                    class="btn btn-primary">Add</button>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="close" ng-hide="$index == 0"
+                                                ng-click="removeAttribute(newEntity.attributes, $index)">×
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="row" ng-if="newEntity.entityName">
+                            <div class="col-md-12 col-xs-12 col-sm-12">
+                                <input type="button" class="btn btn-primary pull-right"
+                                       value="Add New Attribute" style="font-size: 11px;"
+                                       ng-click="addAttribute()">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-xs-9 col-sm-8" ng-if="mode == 'create'">
+                                <button type="button"  class="btn btn-success" ng-click="saveEntity(entity)"
+                                        ng-disabled="entityNameFound|| createentityform.$pristine|| createentityform.$invalid">Save
+                                </button>
+                               <!--  <button type="button"  class="btn btn-success" ng-click="saveEntity(entity)">Save
+                                </button>-->
+                                <span ng-if="createentityform.$pristine|| createentityform.$invalid" class="haserror">
+                                Please fill mandatory fields to Enable save...</span>
+                            </div>
+                            <div class="col-md-8 col-xs-9 col-sm-8" ng-if="mode == 'edit'">
+                               <!--   <button type="button" class="btn btn-success" ng-click="saveEntity(entity)">
+                                    Update </button>-->
+                	                     <button type="button"  class="btn btn-success" ng-click="saveEntity(entity)"
+                                        ng-disabled="entityNameFound || createentityform.$pristine|| createentityform.$invalid">Update
+                                </button>
+                                <span ng-if="createentityform.$pristine|| createentityform.$invalid" class="haserror">
+                                Please Check all fields...</span>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="" ng-show="mode == 'rel'">
+
+                <div class="col-md-12">
+                    <h4><a href> Edit '{{newEntity.entityName}}' Relations</a>
+                        <div class="col-md-6 pull-right">
+
+                            <div class="form-group">
+
+                                <button type="button" class="btn btn-primary pull-right lftmargin"
+                                        ng-click="saveEntity(entity)">Save
+                                </button>
+                                <button type="button" class="btn btn-primary pull-right lftmargin"
+                                        ng-click="undoRelationships()">Undo
+                                </button>
+
+
+                                <div class="input-group col-md-3 pull-right">
+                                    <ui-select ng-model="selected.mapEntity" ng-change="entityChanged()">
+
+                                        <ui-select-match placeholder="Select or search a entity in the list...">
+                                            {{$select.selected.entityName}}
+                                        </ui-select-match>
+                                        <ui-select-choices
+                                                repeat="entity in (dropDownEntities | filter: {entityName:$select.search})">
+                                            <span ng-bind="entity.entityName"></span>
+                                        </ui-select-choices>
+
+                                    </ui-select>
+
+                                    <span class="input-group-btn">
+                                  <button type="button" ng-click="addMapEntity(selected.mapEntity, $index)"
+                                          class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                  </button>
+                                </span>
+
+                                </div>
+                                <!--<button ng-click="exportData()" class="btn btn-primary ">Export</button>-->
+                            </div>
+                        </div>
+
+                    </h4>
+                    </div>
+                    <hr/>
+                    <br/>
+                    <div class="drawing-area" id="drawing-area">
+                    <div id="nodescontainer">
+                        <div class="nodes node{{$index}}" data-node-id="{{$index}}"
+                             data-entity-name="{{relation_entity.entityName}}"
+                             ng-repeat="relation_entity in selectedEntities track by $index"
+                             uib-tooltip="{{relation_entity.entityName}}"
+                             repeat-end="onEnd()">
+                            <div class="entitytitle cursorpointer">
+                                <label class="ten-fontsize"
+                                       ng-click="showentitydetails(relation_entity, $index);">
+                                    {{relation_entity.entityName}}</label>
+
+                                <!--<label class="ten-fontsize" ng-click="showentitydetails(relation_entity, $index); pageslidediv == 'showpageslidediv'">
+                                       ng-click="showentitydetails(relation_entity, $index);
+                                       pageslidediv == 'showpageslidediv'">
+                                        {{relation_entity.entityName}}</label>-->
+                            </div>
+                            <div style="position: relative;bottom: -20px;z-index: 2;right: 0px;">
+                                <a class="cursor-pointer notextstyle ten-fontsize"
+                                   ng-if="$index != 0"
+                                   ng-click="removeRelationShip(relation_entity, $index)">
+                                <span class="glyphicon glyphicon-remove cursor-pointer"></span></a>
+                            </div>
+
+
+                            <!--<div class="panel panel-default">
+                                <div class="panel-heading" >
+                                    <span class="entitytitle cursorpointer"><label class="ten-fontsize"
+                                           ng-click="showentitydetails(relation_entity, $index)">
+                                        {{relation_entity.entityName}}</label></span>
+                                </div>-->
+                                <!--<div class="panel-body">
+                                    <span class="pull-right">
+                                        <a class="cursor-pointer notextstyle ten-fontsize"
+                                           ng-if="$index != 0"
+                                           ng-click="viewsubRelationShips(relation_entity, $index, $event)">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </a>
+                                        <span class="cursor-pointer notextstyle ten-fontsize"
+                                              ng-click="isListallattributesOpen = !isListallattributesOpen">
+                                        <span ng-class="{'glyphicon glyphicon-minus': isListallattributesOpen,
+                                        'glyphicon glyphicon-plus': !isListallattributesOpen }" class=""></span>
+                                    </span>
+                                    <a class="cursor-pointer notextstyle ten-fontsize"
+                                       ng-if="$index != 0"
+                                       ng-click="removeRelationShip(relation_entity, $index)">
+                                <span class="glyphicon glyphicon-remove cursor-pointer"></span></a>
+                                    </span>
+                                    <div class="nodesbodycontent" ng-init="isListallattributesOpen=false"
+                                         ng-show="isListallattributesOpen">
+                                        <p class="chosetext">List of Attributes:</p>
+                                        <ul>
+                                            <li ng-repeat="attribute in relation_entity.attributes">
+                                                <a class="ten-fontsize">{{attribute.name}}</a></li>
+                                        </ul>
+                                        <p ng-repeat="primaryKey in relation_entity.persistenceRules.primaryKeys">
+                                            <a class="ten-fontsize">&#128273; {{primaryKey}}</a>
+                                        </p>
+                                    </div>
+                                </div>
+
+
+                            </div>-->
+
+
+
+
+
+                        </div>
+
+
+                    </div> <!-- node container end -->
+                </div>
+                <!--end of drawing area-->
+
+                <!--<pageslide ps-speed="0.5"  ps-open="selectedentity" ng-mouseleave="closeshowentitydetails()"
+                           ps-side="right" ps-squeeze="true" ps-cloak="true">-->
+
+                <!--context-menu start -->
+                <div id="context-menu">
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header" data-node-type="Strong" data-node-value="Choose">Strong Realation</li>
+                        <li><a href tabindex="-1" data-node-type="Strong" data-node-value="OneToOne">1-1</a></li>
+                        <li><a href tabindex="-1" data-node-type="Strong" data-node-value="OneToMany">1-*</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header" data-node-type="Weak" data-node-value="Choose">Weak Realation</li>
+                        <li><a href tabindex="-1" data-node-type="Weak" data-node-value="ManyToOne">*-1</a></li>
+                        <li><a href tabindex="-1" data-node-type="Weak" data-node-value="ManyToMany">*-*</a></li>
+                        <li><a href tabindex="-1" data-node-type="Weak" data-node-value="OneToOne">1-1</a></li>
+                        <li><a href tabindex="-1" data-node-type="Weak" data-node-value="OneToMany">1-*</a></li>
+                    </ul>
+                </div>
+                <!--context-menu end-->
+
+                <!-- <script src="https://rawgithub.com/eligrey/FileSaver.js/master/FileSaver.js" type="text/javascript"></script>
+                 <div id="exportable" style="display: none;">
+                     <table width="100%">
+                         <thead>
+                         <tr>
+                             <th>Name</th>
+                             <th>relationshipType</th>
+                         </tr>
+                         </thead>
+                         <tbody>
+                         <tr ng-repeat="entity in entities">
+                             <td>{{entity.entityName}}</td>
+                             <td>{{entity.relationships.weakRelationship[0].relationshipType}}</td>
+                         </tr>
+                         </tbody>
+                     </table>
+                 </div>-->
+
+
+
+
+
+                <div style="clear:both;"><br/></div>
+            </div>
+
+
+        </div>
+
+
+    </div> <!--tab one end-->
+
+</div> <!-- tab row end -->
+
+
+
+
+
+

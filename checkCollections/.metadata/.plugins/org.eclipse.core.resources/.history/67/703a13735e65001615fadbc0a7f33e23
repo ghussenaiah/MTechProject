@@ -1,0 +1,25 @@
+package Map.Collection;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class Map_Collection {
+
+	 public static void main(String args[]){ 
+	HashMap<String,String> hm = new HashMap<String,String>();  
+	  
+	hm.put(99,"Hai");
+	
+	  hm.put(100, "Amit");  
+	  hm.put(101, "Vijay");  
+	  hm.put(102, "Rahul");
+	  
+	  Set<String> keys=hm.keySet();
+	  
+	  for(){  
+	   System.out.println(m.getKey()+" "+m.getValue());  
+	 
+	  }
+	  }  
+}

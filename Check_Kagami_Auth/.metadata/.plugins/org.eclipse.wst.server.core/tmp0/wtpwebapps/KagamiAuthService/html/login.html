@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+	<title> AuthApp </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.43/jquery.form-validator.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-resource.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-cookies.js"></script>
+		
+		
+		<script type="text/javascript" src="js/authApp.js"></script>
+		<script type="text/javascript" src="js/authenticationService.js"></script>
+		<script type="text/javascript" src="js/LoginController.js"></script>
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.43/theme-default.min.css"/>
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"/>
+		<link type="text/css" rel="stylesheet" href="../css/font-awesome.css"/>
+		<link type="text/css" rel="stylesheet" href="../css/kagami-app.css"/>
+		
+
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
+	<style>
+		a:link {color: #000000}
+		.kagami-magin-top-1{
+			margin-top:1%;
+		}
+	</style>
+</head>
+<body class="lightbluebg" ng-app="authApp" ng-controller='LoginController'>
+
+
+<div class="row">
+<div class="col-xs-12">
+
+<div class="col-xs-6 col-height showhide-content">
+<br><br>
+<div class=" col-xs-offset-1">
+  <br>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+     
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <img src="http://www.espinasoft.com/images/erp.png" alt="Chania">
+      </div>
+
+      <div class="item">
+        <img src="https://www.rorko.com/wp-content/uploads/2014/04/ERP-Solutions-Will-Help-You-In1.png" alt="Chania">
+      </div>
+    
+     
+    </div>
+
+   
+  </div>
+</div>
+
+
+</div>
+
+
+
+<!-- left end -->
+
+<div class="col-xs-6 col-height mob-col-xs-12">
+
+<div id="wrapper">
+
+
+
+<form class="form-inline" role="form">
+  <header><div id="logo_wrapper" class="">
+	<h1 style="height: 100%; display: table-cell; vertical-align: bottom;">
+	<img id="logo" class="standard_logo" src="../images/Kagami_Logo.png" alt="Kagami_Logo" border="0" name="logo">
+	</h1>
+</div>
+</header>
+  <div class="alert-error" ng-if="errorDiv" ng-show="errorDiv">
+	<p ng-if="error.error">
+		<ul ng-repeat="(code,message) in error.error">
+			<li>{{code}}-{{message}}<li>
+		</ul>
+	</p>
+	<p ng-if="error && !error.error">
+		<label>{{error}}</label>
+	</p>
+</div>
+
+<div class="container-fluid">
+
+<br>
+<div class="form-group has-feedback">
+    <label class="control-label sr-only">Username</label>    
+    <input name="username" type="text"  class="form-control" 
+							id="username" ng-model="user.username" placeholder="User name"/>   
+    <span class="glyphicon glyphicon-user form-control-feedback form-control-feedback"></span>
+</div>   
+   
+<div class="form-group has-feedback">
+	<label class="control-label sr-only">Password</label>
+  	<input  name="password" type="password" class="form-control" 
+							id="password" ng-model="user.password" placeholder="Password"/>
+	<span class="glyphicon glyphicon-certificate form-control-feedback form-control-feedback"></span>
+</div>   
+<div class="form-group has-feedback">
+<br>
+  <button type="submit" class="btn btn-primary"  ng-click="login();">Sign In</button>
+	<a class="signuplink" href="#">Sign Up</a>
+</div>
+  <br> 
+  <br> 
+</form>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+<!-- <body ng-app="authApp" ng-controller='LoginController'>
+	<input name="service" type="hidden"  id="service" ng-model="user.service" >
+
+	
+    <div class="container-fluid">
+			<form class="form-horizontal" id="login" >
+				<div class="form-group"  >
+				 		<label for="username" class="col-sm-2 control-label" > Username</label>
+						<div class="col-sm-10">	
+							<input name="username" type="text"  
+							id="username" ng-model="user.username" placeholder="User name" class="form-control" 
+							   >
+						</div>
+				</div>	
+				<div class="form-group"  >
+				 		<label for="password" class="col-sm-2 control-label" > Password</label>
+						<div class="col-sm-10">	
+							<input name="password" type="password"  
+							id="password" ng-model="user.password" placeholder="Password" class="form-control" 
+							   >
+						</div>
+				</div>
+				<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-success" ng-click="login();" >login</button>
+				</div>
+			</form>
+	</div>
+</body> -->
+</html>
+

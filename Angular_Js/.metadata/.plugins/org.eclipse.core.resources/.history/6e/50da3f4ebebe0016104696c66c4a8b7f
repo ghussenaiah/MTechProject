@@ -1,0 +1,16 @@
+package ws;
+
+@Path("product")
+public class ProductRestful {
+	
+	@Path
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Product> findAll(){
+		
+		List<Product>  all=new ArrayList<Product>();
+		
+		all.
+	}
+
+}

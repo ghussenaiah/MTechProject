@@ -1,0 +1,27 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+
+
+
+
+
+     <class name="beans.Faculty" table="hero99" schema="david">
+
+
+          <id name="fid"/>
+          <property name="name"/>
+           <property name="exp"/>
+
+              <set name="cources">
+
+                 <key column="fid"/>
+                 <many-to-many class="beans.Movies" />
+             </set>
+
+
+</class>
+
+</hibernate-mapping>

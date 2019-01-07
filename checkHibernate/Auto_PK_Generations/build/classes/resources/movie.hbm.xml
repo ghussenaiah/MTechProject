@@ -1,0 +1,18 @@
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class name="beans.MovieTicket" table="Movie" schema="david">
+<!-- here schema is nothing but database  -->
+<id name="id">
+<!-- <generator class="assigned"/>  user is required to give setId(1)-->
+ <generator class="increment"/>
+</id>
+<property name="moviename"/>
+<property name="showtime"/>
+<property name="seatno"/>
+
+</class>
+
+</hibernate-mapping>

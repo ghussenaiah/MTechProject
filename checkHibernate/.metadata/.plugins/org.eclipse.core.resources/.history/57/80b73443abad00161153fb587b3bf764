@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Many_to_One_Relation">
+        <property name="context-root" value="Many_to_One_Relation"/>
+        <property name="java-output-path" value="/Many_to_One_Relation/build/classes"/>
+    </wb-module>
+</project-modules>

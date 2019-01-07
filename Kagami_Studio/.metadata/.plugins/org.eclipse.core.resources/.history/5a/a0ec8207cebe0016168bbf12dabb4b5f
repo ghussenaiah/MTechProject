@@ -1,0 +1,1117 @@
+define(['app', 'lodash', 'alertify',
+
+    /*
+     Services
+     */
+    'shared/StackModalService',
+    'unshared/entity_builder/entityModalController',
+
+    /*
+     Directives
+     */
+
+    'bootstrap-contextmenu',
+    'unshared/entity_builder/Directives/angular-pageslide-directive',
+    'unshared/entity_builder/Directives/accept-number-only',
+    'unshared/entity_builder/Directives/datepicker',
+    'unshared/entity_builder/Directives/onlyDigits',
+
+    /*
+     Jquery svg line draw services
+     */
+    'jquery.svg',
+    'unshared/entity_builder/services/jquery.connectingLine',
+
+/*
+     * Factories
+     */
+    'factory/dataFactory'], function (app, _, alertify) {
+    window.alertify = alertify;
+
+    app.controller('EntityBuilderController', ['$scope', '$window', '$http', '$compile', '$sce', '$route', '$routeParams', '$timeout',
+        'StackModalService', 'EntityContractFactory', function ($scope, $window, $http, $compile, $sce, $route, $routeParams, $timeout,
+                                                                stackModalService, entityContractFactory) {
+
+            // get all entity
+            entityContractFactory.getAllEntities().$promise.then(function (data) {
+            	
+                    $scope.entities = data;
+                });
+            $scope.iframeHeight = $window.innerHeight;
+
+            //$scope.selectedentity=false;
+            /*$scope.showentitydetails = function (relation_entity, $index) {
+                $scope.selectedentity = true;
+                $scope.showentity = relation_entity;
+            };*/
+
+            $scope.closeshowentitydetails = function () {
+                $scope.selectedentity = false;
+                //$scope.selectedentity = !$scope.selectedentity;
+            };
+            
+            $scope.showentitydetails = function (relation_entity, $index) {
+            	
+            	$scope.selectedentity = true;
+            	$scope.showentity = relation_entity;                
+                var entitymodaldata = {};
+                
+                console.log($scope.newEntity); 
+                
+                stackModalService.open(
+                    'scripts/unshared/entity_builder/template/entityModal.html',
+                    'entityModalController',
+                    { 
+                    	relation_entity : relation_entity,
+                    	x : $scope.selectedEntities,
+                    	newEntity : $scope.newEntity
+                    },
+                    'right'
+                ).then(function (showEntity) {
+                    if (showEntity) {
+                    	
+                    	_.remove($scope.selectedEntities[0].relationships.weakRelationship,function(val,key){
+      					  if(showEntity.entityName == val.entityName )
+      						  return val;
+      					  
+      				  });
+      			        
+      				  _.remove($scope.selectedEntities[0].relationships.strongRelationship,function(val,key){
+      					  if(showEntity.entityName == val.entityName )
+      						  return val;
+      				  });
+      				drawRelationShips();
+      			            
+                    	
+                    }
+                });
+                };
+            
+
+            // clear searchbox start
+            $scope.params = {};
+            $scope.clearText = function () {
+                $scope.params.searchEntity = null;
+            }; // clear searchbox end
+
+            $scope.relationshipEntities = [];
+
+            /* Create */
+            $scope.mode = 'create';
+
+            $scope.createEntity = function () {
+                $scope.mode = 'create';
+                $scope.newEntity = {
+                		"entityName": "",
+                        "master": false,
+                        "attributes":[],
+                };
+            };
+
+            $scope.newEntityNameChanged = function () {
+            	//console.log("asdfas");
+
+                if (!$scope.newEntity.attributes) {
+                    $scope.newEntity.attributes = [];
+                }
+
+                if ($scope.mode == 'create') {
+                    $scope.newEntity.entityName = $scope.newEntity.entityName.charAt(0).toUpperCase() +
+                        $scope.newEntity.entityName.substr(1);
+
+                   var isEntityname = _.find($scope.entities, function (getentityname) {
+                       return getentityname.entityName == $scope.newEntity.entityName
+                   });
+                   if(isEntityname){
+                       $scope.entityNameFound = true;
+                       //alertify.success("entity exists");
+                   }else{
+                    $scope.entityNameFound = false;
+                   }
+
+                    var defaultAttr = _.find($scope.newEntity.attributes, {isDefault: true});
+
+                    var cloneattributename = $scope.newEntity.entityName + 'Id';
+
+                    cloneattributename = cloneattributename.charAt(0).toLowerCase() + cloneattributename.substr(1);
+
+                    if (cloneattributename == undefined ) {
+                        cloneattributename = "";
+                    }
+
+                    if (!defaultAttr) {
+                        defaultAttr = {
+                            "name": cloneattributename,
+                            "type": "text",
+                            "validations": [{
+                                "validationType": "notNull",
+                                "validationValue": null
+                            }],
+                            "defaultValue": null,
+                            "isDefault": true
+                        };
+
+
+                        $scope.newEntity.attributes.push(defaultAttr);
+                        $scope.setAsPrimaryKey(defaultAttr);
+                    } else {
+                        if ($scope.newEntity.persistenceRules.primaryKeys
+                            && _.first($scope.newEntity.persistenceRules.primaryKeys) == defaultAttr.name) {
+                            $scope.newEntity.persistenceRules.primaryKeys = [$scope.newEntity.entityName + 'Id'];
+                        }
+                        if ($scope.newEntity.entityName == undefined ) {
+                            defaultAttr.name = "";
+                        }
+                        else{
+                            defaultAttr.name = $scope.newEntity.entityName + 'Id';
+                            defaultAttr.name = defaultAttr.name.charAt(0).toLowerCase() + defaultAttr.name.substr(1);
+                        }
+
+                    }
+                }
+              else{
+                    var isEntityname = _.find($scope.entities, function (getentityname) {
+                    	
+                    	var x = $scope.newEntity.entityName.charAt(0).toUpperCase() + $scope.newEntity.entityName.substr(1);
+                       return getentityname.entityName == x;
+                    });
+                    if(isEntityname){
+                       $scope.entityNameFound = true;
+                        //alertify.success("entity exists");
+                    }else{
+                    $scope.entityNameFound = false;
+                    }
+                    
+                }
+
+            };
+
+            var oldAttribute;
+            $scope.attributeNameFocused = function (attribute) {
+                oldAttribute = _.cloneDeep(attribute);
+            };
+
+
+            $scope.attributenamechange = function (attribute) {
+                if ($scope.newEntity.persistenceRules.primaryKeys
+                    && _.first($scope.newEntity.persistenceRules.primaryKeys) == oldAttribute.name) {
+                    $scope.newEntity.persistenceRules.primaryKeys = [attribute.name];
+                }
+                attribute.name = attribute.name.charAt(0).toLowerCase() + attribute.name.substr(1);
+                oldAttribute = _.cloneDeep(attribute);
+            };
+            
+            
+
+
+            // save entity and attribute editor start
+            $scope.saveEntity = function () {
+                /*$scope.newEntity.entityName = $scope.newEntity.entityName.charAt(0).toUpperCase() +
+                    $scope.newEntity.entityName.substr(1);*/
+                var entityMetadata = {
+                    "entityName": $scope.newEntity.entityName,
+                    "master": $scope.newEntity.master,
+                    "attributes": $scope.newEntity.attributes,
+                    "persistenceRules": $scope.newEntity.persistenceRules,
+                    "relationships": $scope.newEntity.relationships
+                };
+
+                // to remove undefined values and restrict lowercase start
+                var index = 0;
+                _.each(entityMetadata.attributes, function (attrname, index) {
+                    if (attrname["name"] == undefined || attrname.name == null || attrname.name == '') {
+                        entityMetadata.attributes.splice(index, 1);
+                        index++;
+                    }
+                });
+                // to remove undefined values and restrict lowercase end
+
+                console.log(entityMetadata);
+                if ($scope.mode == 'rel') {
+                    entityContractFactory.updateEntityRelations(entityMetadata).$promise
+                        .then(function () {
+                            alertify.success('Entity Relation Created');
+                            //$scope.entities.unshift(entityMetadata);
+                            $route.reload();
+                        });
+                } else if ($scope.mode == 'create') {
+                    if (_.find($scope.entities, {entityName: entityMetadata.entityName})) {
+                        $scope.entityNameFound = true;
+                        alertify.error('Entity Already Exists');
+                    } else {
+                        $scope.entityNameFound = false;
+                        entityContractFactory.save(entityMetadata).$promise
+                            .then(function () {
+                                _.remove($scope.entities, {entityId: entityMetadata.entityId});
+                                alertify.success('Entity Created');
+                                $scope.entities.unshift(entityMetadata);
+                                $scope.$applyAsync();
+                            });
+                    }
+                } else {
+                	  /*if (_.find($scope.entities, {entityName: entityMetadata.entityName})) {
+                          $scope.entityNameFound = true;
+                          alertify.error('Entity Already Exists');
+                      }*/
+                	  
+                    entityMetadata.entityId = $scope.newEntity.entityId;
+                    entityContractFactory.update(entityMetadata).$promise
+                        .then(function () {
+                            _.remove($scope.entities, {entityId: entityMetadata.entityId});                            
+                            $scope.entities.unshift(entityMetadata);
+                            $scope.$applyAsync();
+                            $scope.entities = [];
+                            alertify.success('Entity Updated');
+                            $scope.mode = 'edit';
+                            entityContractFactory.getAllEntities().$promise
+                            .then(function (data) {
+                                $scope.entities = data;
+                            });
+                            
+                        });
+                	  
+                	  
+                }
+            };
+
+            //add attribute start
+            $scope.addAttribute = function () {
+                if (_.isEmpty($scope.newEntity.attributes)) {
+                    $scope.newEntity.attributes = [];
+                }
+
+                $scope.newEntity.attributes.push({
+                    "name": null,
+                    "type": "text",
+                    "validations": [{
+                        "validationType": "notNull"
+                    }],
+                    "defaultValue": null
+                });
+                console.log($scope.newEntity);
+            };
+            
+            
+			$scope.duplicateAttr = function(name, $index){
+			            	
+			      	var x =  _.filter($scope.newEntity.attributes, function(str, i){
+			            		return str.name == name && i <= $index;
+			            	});
+
+
+			        if(x.length > 1)
+			        	return true ;
+			        else
+			        	return false;
+			            };
+			            
+			            
+			            
+			            
+			            
+			            $scope.casesensitiveAttr = function(name, $index){
+			            	
+					      	var x =  _.filter($scope.newEntity.attributes, function(str, i){
+					            		return str.name.toLowerCase() === name.toLowerCase() && i <= $index;
+					            	});
+
+
+					        if(x.length > 1)
+					        	return true ;
+					        else
+					        	return false;
+					            };
+            //add attribute end
+
+            //add attribute - remove node by index start
+            $scope.removeAttribute = function (array, index) {
+                array.splice(index, 1);
+                var defaultAttr = _.find($scope.newEntity.attributes, {isDefault: true});
+                if (array.length==1 || $scope.newEntity.persistenceRules.primaryKeys[0] == null) {               	  
+                	  $scope.setAsPrimaryKey(defaultAttr);
+                }
+            };//add attribute - remove node by index end
+
+            $scope.attributeTyperange = function (attribute) {
+            	
+            	
+            	
+            
+                $scope.minmaxcolumn = true;
+                var found = _.find($scope.newEntity.attributes, function (item) {
+                    return (item.validations && item.validations.length >= 1 && item.validations[1].validationType == 'range');
+                });
+
+                if (found) {
+                    $scope.minmaxcolumn = true;
+                    attribute.validations[1].validationValue = {
+                        "min": 00,
+                        "max": 100
+                    };
+                } else {
+                    $scope.minmaxcolumn = false;
+                }
+            
+            
+
+            };
+
+            
+        
+            // before save entity push attribute start
+
+
+            // primary key enable start
+            $scope.setAsPrimaryKey = function (attribute) {
+                if (!$scope.newEntity.persistenceRules) {
+                    $scope.newEntity.persistenceRules = {};
+                }
+                if ($scope.newEntity.persistenceRules.primaryKeys == undefined) {
+                    $scope.newEntity.persistenceRules.primaryKeys = [];
+                }
+
+                if ($scope.newEntity && $scope.newEntity.persistenceRules) {
+
+                    if (_.find($scope.newEntity.persistenceRules.primaryKeys,
+                            function (item) {
+                                return item === attribute.name
+                            })) {
+                        return false;
+                    } else {
+                        $scope.newEntity.persistenceRules.primaryKeys = [attribute.name];
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+            };
+
+            /*$scope.setAsUniqueKeys = function(attribute, index, event){
+             if (!$scope.newEntity.persistenceRules) {
+             $scope.newEntity.persistenceRules = {};
+             }
+             if (!$scope.newEntity.persistenceRules.uniqueKeys) {
+             $scope.newEntity.persistenceRules.uniqueKeys = [];
+             }
+             $scope.newEntity.persistenceRules.uniqueKeys.push(attribute.name);
+
+             alert("checkbox " + index + " is ");
+             }*/
+
+            /*$scope.setAsUniqueKeys = function (name) {
+             if (!$scope.newEntity.persistenceRules) {
+             $scope.newEntity.persistenceRules = {};
+             }
+             if (!$scope.newEntity.persistenceRules.uniqueKeys) {
+             $scope.newEntity.persistenceRules.uniqueKeys = [];
+             }
+             var checked = false;
+             for(var i=0; i<= $scope.newEntity.persistenceRules.uniqueKeys.length; i++) {
+             if(name) {
+             checked = true;
+             $scope.newEntity.persistenceRules.uniqueKeys.push(name);
+             }
+             }
+             return checked;
+
+             };*/
+
+            // unique key enable start
+            $scope.setAsUniqueKey = function (attribute) {
+                if (!$scope.newEntity.persistenceRules) {
+                    $scope.newEntity.persistenceRules = {};
+                }
+                if (!$scope.newEntity.persistenceRules.uniqueKeys) {
+                    $scope.newEntity.persistenceRules.uniqueKeys = [];
+                }
+
+                if(_.find($scope.newEntity.persistenceRules.uniqueKeys, function (item) {
+                        return item == attribute.name;
+                    })){
+                    _.remove($scope.newEntity.persistenceRules.uniqueKeys, function (item) {
+                        return item == attribute.name;
+                    })
+                } else {
+                    $scope.newEntity.persistenceRules.uniqueKeys.push(attribute.name);
+                }
+            };
+
+
+            /*$scope.isUniqueKey = function (attribute) {
+                if ($scope.newEntity.persistenceRules
+                    && _.find($scope.newEntity.persistenceRules.uniqueKeys, function (uniqueKey) {
+                        return uniqueKey == attribute.name;
+                    })) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };*/
+
+            // Autogeneration key enable start
+            $scope.addAsAutogeneration = function (attribute) {
+                if (!$scope.newEntity.persistenceRules) {
+                    $scope.newEntity.persistenceRules = {};
+                }
+                if (!$scope.newEntity.persistenceRules.autoCodeGenContraints) {
+                    $scope.newEntity.persistenceRules.autoCodeGenContraints = [];
+                }
+                if (_.find($scope.newEntity.persistenceRules.autoCodeGenContraints, {keyAttribute: attribute.name})) {
+                    var autoGenProperty = _.find($scope.newEntity.persistenceRules.autoCodeGenContraints, {keyAttribute: attribute.name});
+                    autoGenProperty.prefix = attribute.attributeautogenprefix;
+                } else {
+                    $scope.newEntity.persistenceRules.autoCodeGenContraints.push({
+                        "prefix": attribute.attributeautogenprefix,
+                        "keyAttribute": attribute.name
+                    });
+                }
+                //$scope.showPopover = false;
+            };
+            if ($scope.mode = 'create') {
+                $scope.autogenTitle = "Add";
+            }
+            $scope.openAutoGenPopover = function (attribute) {
+                $scope.popover = {
+                    placement: 'auto left',
+                    title: 'Auto Code GenContraints',
+                    html: true,
+                    trigger: 'click'
+                };
+                /// attribute.attributeautogenprefix
+                if ($scope.newEntity.persistenceRules &&
+                    _.find($scope.newEntity.persistenceRules.autoCodeGenContraints, {keyAttribute: attribute.name})) {
+                    attribute.attributeautogenprefix = _.find($scope.newEntity.persistenceRules.autoCodeGenContraints, {keyAttribute: attribute.name}).prefix;
+                }
+                attribute.attributeautogen = attribute.name;
+            };
+            // Autogeneration key enable end
+
+            $scope.openRangePopover = function () {
+                $scope.popover = {
+                    placement: 'auto left',
+                    html: true,
+                    trigger: 'click'
+                };
+            };
+
+            // SetAsMasterEntity enable start
+            $scope.SetAsMasterEntity = function () {
+                /*if (!$scope.newEntity) {
+                 $scope.newEntity = {};
+                 }
+                 $scope.newEntity.master = $scope.newEntity.master;*/
+            };
+            // SetAsMasterEntity enable end
+
+
+            $scope.attributedefaultValuetext = function (attribute) {
+                if ($scope.newEntity.attributes.defaultValue == undefined) {
+                    $scope.newEntity.attributes.defaultValue = {};
+                }
+                $scope.newEntity.attributes.defaultValue = attribute.defaultValue;
+            };
+            $scope.numbersonly = /^-?[0-9]\d*(\.\d+)?$/;
+            $scope.attributedefaultValuenumber = function (attribute) {
+                if ($scope.newEntity.attributes.defaultValue == undefined) {
+                    $scope.newEntity.attributes.defaultValue = {};
+                }
+               /* if($scope.attribute.defaultValue <= attribute.validations[1].validationValue.min ){
+                 $scope.minnumber= "Enter min number...";
+                 }
+                 if( $scope.attribute.defaultValue >= attribute.validations[1].validationValue.max ){
+                 $scope.maxnumber= "Enter min number...";
+                 }*/
+                $scope.newEntity.attributes.defaultValue = attribute.defaultValue;
+            };
+            $scope.attributeTyperangemdp = function () {
+
+            };
+            $scope.setpastdate = function (attribute) {
+                var d = new Date();
+                var year = d.getFullYear();
+                var month = d.getMonth() + 1;
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                var day = d.getDate();
+                if ( _.find(attribute.validations, {validationType : "past"}) ){
+                    console.log("past");
+                    attribute.defaultValue = year + "-" + month + "-" + day;
+                }else{
+                    console.log("future");
+                    attribute.defaultValue = year + "-" + month + "-" + day;
+                }
+            };
+            $scope.setpastdatetime = function (attribute) {
+                var dt = new Date(); // for now
+                var h = dt.getHours();
+                h = (h < 10) ? ("0" + h) : h;
+                var m = dt.getMinutes();
+                m = (m < 10) ? ("0" + m) : m;
+                var s = dt.getSeconds();
+                s = (s < 10) ? ("0" + s) : s;
+
+                var d = new Date();
+                var year = d.getFullYear();
+                var month = d.getMonth() + 1;
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                var day = d.getDate();
+                attribute.defaultValue = year + "-" + month + "-" + day + " " + h + ":" + m + ":" + s;
+            };
+
+            $scope.digitsonly = /^[0-9]+$/;
+            $scope.attributedefaultValuedate = function (attribute,index) {
+                if ($scope.newEntity.attributes.defaultValue == undefined) {
+                    $scope.newEntity.attributes.defaultValue = {};
+                }
+                
+                angular.element('#calenderpast'+index).datepicker({
+                    dateFormat: 'dd-mm-yy',
+                    maxDate: new Date()
+                });
+                $scope.newEntity.attributes.defaultValue = attribute.defaultValue;
+                                
+            };
+            $scope.attributedefaultValuedatefuture = function (attribute,index) {
+                if ($scope.newEntity.attributes.defaultValue == undefined) {
+                    $scope.newEntity.attributes.defaultValue = {};
+                }
+             
+                angular.element('#calenderfuture'+index).datepicker({
+                    dateFormat: 'dd-mm-yy',
+                    minDate: new Date()
+                });
+                $scope.newEntity.attributes.defaultValue = attribute.defaultValue;
+                
+            };
+            $scope.attributedefaultValueboolean = function (attribute) {
+                if ($scope.newEntity.attributes.defaultValue == undefined) {
+                    $scope.newEntity.attributes.defaultValue = {};
+                }
+                $scope.newEntity.attributes.defaultValue = attribute.defaultValue;
+            };
+
+
+            //default value change start
+            $scope.defaultattribute = false;
+            $scope.showSelectValue = function (attribute) {
+                if ($scope.newEntity.attributes.defaultValue == undefined) {
+                    $scope.newEntity.attributes.defaultValue = {};
+                }
+                switch (attribute.type) {
+                    case 'text':
+                        $scope.defaultattribute = true;
+                        attribute.defaultValue = "";
+                        break;
+                    case 'number':
+                        $scope.defaultattribute = true;
+                        attribute.defaultValue = "";
+                        break;
+                    case 'date':
+                        $scope.defaultattribute = true;
+                        attribute.defaultValue = "";
+                        break;
+                    case 'file':
+                        $scope.defaultattribute = true;
+                        break;
+                    case 'digits':
+                        $scope.defaultattribute = true;
+                        break;
+                    case 'boolean':
+                        $scope.defaultattribute = true;
+                        break;
+                    default:
+                        $scope.defaultattribute = false;
+                        attribute.defaultValue = "";
+                        break;
+
+                }
+            };
+            //default value change end
+
+
+            // delete entity start
+            $scope.deleteentity = function (entity) {
+                alertify.confirm("Confirm", "Are you sure, you want to delete Entity", function () {
+                    entityContractFactory.delete(entity).$promise
+                        .then(function () {
+                            _.remove($scope.entities, function (item) {
+                                return item.entityName == entity.entityName;
+                            });
+                            $scope.createEntity();
+                        });
+                    //$scope.entities.push(entity);
+                    alertify.success('Entity deleted');
+                }, function () {
+                    alertify.error('Entity not deleted');
+                });
+
+            };
+            // delete entity end
+
+
+            $scope.undoRelationships = function (entity) {
+                $scope.newEntity = _.find($scope.entities, {entityName: $scope.newEntity.entityName});
+                drawRelationShips();
+                alertify.success("Entity refreshed");
+
+            }
+
+
+            var mySVG = $('#drawing-area').connectSVG();
+
+
+            var drawRelationShips = function () {
+                var _selectedEntities = [];
+                $scope.selectedEntities = [];
+
+                _selectedEntities.push($scope.newEntity);
+
+                $scope.dropDownEntities = [];
+
+
+                mySVG.clearArray();
+                mySVG.redrawLines();
+                mySVG.onChangeRelation(function (option, relationType) {
+                    var firstNodeId = option.source.replace('.node', '');
+                    var secondNodeId = option.destination.replace('.node', '');
+
+                    _.remove($scope.selectedEntities[firstNodeId].relationships.weakRelationship,
+                        {entityName: $scope.selectedEntities[secondNodeId].entityName});
+                    _.remove($scope.selectedEntities[firstNodeId].relationships.strongRelationship,
+                        {entityName: $scope.selectedEntities[secondNodeId].entityName});
+
+                    var primaryKeyAttrForMapEntity = _.find($scope.selectedEntities[secondNodeId].attributes,
+                        {name: _.first($scope.selectedEntities[secondNodeId].persistenceRules.primaryKeys)});
+
+                    if (option.relationType == 'Strong') {
+                        $scope.selectedEntities[firstNodeId].relationships.strongRelationship.push({
+                            "entityName": $scope.selectedEntities[secondNodeId].entityName,
+                            "relationshipType": option.relationlabel,
+                            "attributes": [{
+                                name: primaryKeyAttrForMapEntity.name,
+                                type: primaryKeyAttrForMapEntity.type
+                            }]
+                        });
+                    } else {
+                        $scope.selectedEntities[firstNodeId].relationships.weakRelationship.push({
+                            "entityName": $scope.selectedEntities[secondNodeId].entityName,
+                            "relationshipType": option.relationlabel,
+                            "attributes": [{
+                                name: primaryKeyAttrForMapEntity.name,
+                                type: primaryKeyAttrForMapEntity.type
+                            }]
+                        });
+                    }
+                });
+
+                if ($scope.newEntity.relationships
+                    && $scope.newEntity.relationships.weakRelationship
+                    && !_.isEmpty($scope.newEntity.relationships.weakRelationship)) {
+
+
+                    _.forEach($scope.newEntity.relationships.weakRelationship, function (weakRelation) {
+                        entity = _.find($scope.entities, {entityName: weakRelation.entityName});
+                        _selectedEntities.push(entity);
+                    });
+
+                }
+
+                if ($scope.newEntity.relationships
+                    && $scope.newEntity.relationships.strongRelationship
+                    && !_.isEmpty($scope.newEntity.relationships.strongRelationship)) {
+
+
+                    _.forEach($scope.newEntity.relationships.strongRelationship, function (strongRelation) {
+                        entity = _.find($scope.entities, {entityName: strongRelation.entityName});
+                        _selectedEntities.push(entity);
+                    });
+
+                }
+
+
+                $scope.selectedEntities = _selectedEntities;
+
+                /*_.forEach($scope.entities, function (entity) {
+                 if (!_.find($scope.selectedEntities, {entityName: entity.entityName})) {
+                 $scope.dropDownEntities.push(entity);
+                 }
+                 });*/
+
+                entityContractFactory.getNonEmbeddedEntities().$promise
+                    .then(function (newdata) {
+                        _.forEach(newdata, function (entity) {
+                            if (!_.find($scope.selectedEntities, {entityName: entity.entityName})) {
+                                $scope.dropDownEntities.push(entity);
+                            }
+                        });
+                    });
+
+                /*if ($scope.newEntity.relationships
+                 && $scope.newEntity.relationships.weakRelationship
+                 && !_.isEmpty($scope.newEntity.relationships.weakRelationship)) {*/
+                if ($scope.newEntity.relationships) {
+                    $timeout(function () {
+
+                        var continueIndex = -1;
+                        _.forEach($scope.newEntity.relationships.weakRelationship, function (weakRelation, index) {
+                            var $newNode = $('.node' + (index + 1));
+
+                            //$newNode.css('left', '400px').css('top', (index + 1) * 110);
+
+                            if (weakRelation.relationshipType == '') {
+                                weakRelation.relationshipType = "Choose";
+                            }
+
+
+                            mySVG.drawLine({
+                                left_node: '.node0',
+                                right_node: '.node' + (index + 1),
+                                horizantal_gap: 10,
+                                relationlabel: weakRelation.relationshipType
+                            });
+                            continueIndex = index;
+                        });
+
+                        _.forEach($scope.newEntity.relationships.strongRelationship, function (strongRelation, index) {
+                            index = continueIndex + index + 1;
+                            var $newNode = $('.node' + (index + 1));
+
+                            //$newNode.css('left', '400px').css('top', (index + 1) * 110);
+
+                            if (strongRelation.relationshipType == '') {
+                                strongRelation.relationshipType = "Choose";
+                            }
+
+
+                            mySVG.drawLine({
+                                left_node: '.node0',
+                                right_node: '.node' + (index + 1),
+                                horizantal_gap: 10,
+                                relationlabel: strongRelation.relationshipType
+                            });
+                        });
+
+                        var exceptFirst = _.filter(_selectedEntities, function (value, index) {
+                            return index != 0
+                        });
+
+                        _.forEach(exceptFirst, function (firstLevelEntity) {
+
+                            _.forEach(exceptFirst, function (childEntity) {
+                                if (childEntity.entityName != firstLevelEntity.entityName && childEntity.relationships) {
+                                    _.forEach(childEntity.relationships.weakRelationship, function (innerWeakRelation) {
+                                        if (firstLevelEntity.entityName == innerWeakRelation.entityName) {
+
+                                            var childEntityNodeId = $('[data-entity-name=' + childEntity.entityName + ']').attr('data-node-id');
+                                            var innerWeakRelationNodeId = $('[data-entity-name=' + innerWeakRelation.entityName + ']').attr('data-node-id');
+
+                                            mySVG.drawLine({
+                                                left_node: '.node' + childEntityNodeId,
+                                                right_node: '.node' + innerWeakRelationNodeId,
+                                                horizantal_gap: 10,
+                                                relationlabel: innerWeakRelation.relationshipType
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                        _.forEach(exceptFirst, function (firstLevelEntity) {
+
+                            _.forEach(exceptFirst, function (childEntity) {
+                                if (childEntity.entityName != firstLevelEntity.entityName && childEntity.relationships) {
+                                    _.forEach(childEntity.relationships.strongRelationship, function (innerstrongRelation) {
+                                        if (firstLevelEntity.entityName == innerstrongRelation.entityName) {
+
+                                            var childEntityNodeId = $('[data-entity-name=' + childEntity.entityName + ']').attr('data-node-id');
+                                            var innerstrongRelationNodeId = $('[data-entity-name=' + innerstrongRelation.entityName + ']').attr('data-node-id');
+
+                                            mySVG.drawLine({
+                                                left_node: '.node' + childEntityNodeId,
+                                                right_node: '.node' + innerstrongRelationNodeId,
+                                                horizantal_gap: 10,
+                                                relationlabel: innerstrongRelation.relationshipType
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        });
+
+                        mySVG.circularpositon();
+
+                        mySVG.redrawLines();
+
+                        $(".nodes").draggable({
+                            //helper: 'clone',
+                            //appendTo: '#nodescontainer',
+                            //containment: 'parent',
+                            drag: function (event, ui) {
+                                mySVG.redrawLines();
+                            },
+                            stop: function () {
+                                console.log('dropped');
+                            }
+                        });
+
+
+                    }, 200);
+                }
+
+                // removeRelationShip entity relation start
+                $scope.removeRelationShip = function (relation_entity, index) {
+                    _.remove($scope.newEntity.relationships.weakRelationship,
+                        {entityName: relation_entity.entityName});
+                    _.remove($scope.newEntity.relationships.strongRelationship,
+                        {entityName: relation_entity.entityName});
+                    _.remove($scope.newEntity.attributes,
+                        {name: _.first(relation_entity.persistenceRules.primaryKeys)});
+                    drawRelationShips();
+                    $scope.newEntity = $scope.newEntity;
+                }; // removeRelationShip entity relation end
+                // removeRelationShip entity relation start
+                $scope.removeRelationShip = function (showentity, index) {
+                    _.remove($scope.newEntity.relationships.weakRelationship,
+                        {entityName: showentity.entityName});
+                    _.remove($scope.newEntity.relationships.strongRelationship,
+                        {entityName: showentity.entityName});
+                    _.remove($scope.newEntity.attributes,
+                        {name: _.first(showentity.persistenceRules.primaryKeys)});
+                    drawRelationShips();
+                    $scope.newEntity = $scope.newEntity;
+                }; // removeRelationShip entity relation end
+
+
+            };
+            
+            $scope.isValidRange = function(attribute){
+            	return (attribute.defaultValue != '' && attribute.defaultValue != null) && (parseFloat(attribute.defaultValue) < parseFloat(attribute.validations[1].validationValue.min) ||
+            			parseFloat(attribute.defaultValue) > parseFloat(attribute.validations[1].validationValue.max));
+            }
+
+
+            // show clicked entity to map relation start
+            $scope.editEntity = function (entity) {
+                $scope.mode = 'edit';
+                $scope.autogenTitle = "view";
+                $scope.minmaxcolumn = true;
+                $scope.isCreate = true;
+                $scope.onlyNumbers = /^\d+$/;
+                $scope.newEntity = _.cloneDeep(entity, true);
+                if($scope.newEntity.persistenceRules && $scope.newEntity.persistenceRules.uniqueKeys){
+                    _.forEach($scope.newEntity.persistenceRules.uniqueKeys, function (uniqueKey) {
+                        var attribute = _.find($scope.newEntity.attributes, {name: uniqueKey});
+                        attribute.uniqueKeys = true;
+                      //  $scope.newEntity.persistenceRules.uniqueKeys.push(attribute.name);
+                    });
+                }
+
+            };
+
+
+            $scope.relEntity = function (entity) {
+                $scope.isCreate = false;
+                $scope.mode = 'rel';
+                $scope.minmaxcolumn = true;
+                drawRelationShips();
+            };
+
+            // viewRelationShip entity relation start
+            $scope.viewsubRelationShips = function (relation_entity, parentIndex, passedEventObject) {
+
+                var subViewEntities = [];
+                var maxIndex = $scope.selectedEntities.length;
+
+
+                if (relation_entity.relationships != null) {
+                    _.forEach(relation_entity.relationships.weakRelationship, function (weakRelation) {
+                        if (!_.find($scope.selectedEntities, {entityName: weakRelation.entityName})) {
+                            var foundRelationEntity = _.find($scope.entities, {entityName: weakRelation.entityName});
+                            subViewEntities.push(foundRelationEntity);
+                        }
+                    });
+                    _.forEach(relation_entity.relationships.strongRelationship, function (strongRelation) {
+                        if (!_.find($scope.selectedEntities, {entityName: strongRelation.entityName})) {
+                            var foundRelationEntity = _.find($scope.entities, {entityName: strongRelation.entityName});
+                            subViewEntities.push(foundRelationEntity);
+                        }
+                    });
+                    $scope.selectedEntities = $scope.selectedEntities.concat(subViewEntities);
+
+                }
+
+
+                $timeout(function () {
+                    _.forEach(relation_entity.relationships.strongRelationship, function (strongRelation, index) {
+                        var $newNode = $('.node' + (maxIndex + index));
+
+                        if (weakRelation.relationshipType == '') {
+                            weakRelation.relationshipType = "Choose";
+                        }
+
+                        var position = passedEventObject.target.getBoundingClientRect();
+                        var passedEventObjectx = position.left;
+                        var passedEventObjecty = position.top;
+                        console.log(passedEventObjectx + "==" + passedEventObjecty);
+                        //$newNode.css('left', passedEventObjectx).css('top', (maxIndex+index) * 50);
+
+                        mySVG.drawLine({
+                            left_node: '.node' + parentIndex,
+                            right_node: '.node' + (maxIndex + index),
+                            horizantal_gap: 10,
+                            relationlabel: strongRelation.relationshipType
+                        });
+                    });
+                    _.forEach(relation_entity.relationships.weakRelationship, function (weakRelation, index) {
+                        var $newNode = $('.node' + (maxIndex + index));
+
+                        if (weakRelation.relationshipType == '') {
+                            weakRelation.relationshipType = "Choose";
+                        }
+
+                        var position = passedEventObject.target.getBoundingClientRect();
+                        var passedEventObjectx = position.left;
+                        var passedEventObjecty = position.top;
+                        console.log(passedEventObjectx + "==" + passedEventObjecty);
+                        //$newNode.css('left', passedEventObjectx).css('top', (maxIndex+index) * 50);
+
+                        mySVG.drawLine({
+                            left_node: '.node' + parentIndex,
+                            right_node: '.node' + (maxIndex + index),
+                            horizantal_gap: 10,
+                            relationlabel: weakRelation.relationshipType
+                        });
+                    });
+
+                    mySVG.circularpositon();
+
+                    mySVG.redrawLines();
+
+                    $(".nodes").draggable({
+                        //helper: 'clone',
+                        //appendTo: '#nodescontainer',
+                        //containment: 'parent',
+                        drag: function (event, ui) {
+                            mySVG.redrawLines();
+                        },
+                        stop: function () {
+                            console.log('dropped');
+                        }
+                    });
+
+
+                }, 100);
+
+
+            }
+            // viewRelationShip entity relation end
+
+            // show clicked entity to map relation start
+            var $firstNode = null, firstNodeId, secondNodeId;
+            $scope.createrelationbutton = false;
+            $scope.selected = {};
+            $scope.addMapEntity = function (mapEntity, index) {
+
+                _.remove($scope.dropDownEntities, {entityName: mapEntity.entityName});
+
+                var entityexists = _.find($scope.selectedEntities, {entityName: mapEntity.entityName});
+                if (mapEntity != entityexists) {
+                    $scope.selectedEntities.push(mapEntity);
+                }
+
+                $timeout(function () {
+
+                    if (!$scope.newEntity.relationships) {
+                        $scope.newEntity.relationships = {
+                            "weakRelationship": [],
+                            "strongRelationship": [],
+                        };
+                    }
+
+                    if (mapEntity.persistenceRules.primaryKeys) {
+
+                        var primaryKeyAttrForMapEntity = _.find(mapEntity.attributes, {name: _.first(mapEntity.persistenceRules.primaryKeys)});
+
+                        $scope.newEntity.attributes.push(primaryKeyAttrForMapEntity);
+
+                        $scope.newEntity.relationships.weakRelationship.push({
+                            "entityName": mapEntity.entityName,
+                            "relationshipType": null,
+                            "attributes": [{
+                                name: primaryKeyAttrForMapEntity.name,
+                                type: primaryKeyAttrForMapEntity.type
+                            }]
+                        });
+                        $scope.newEntity.relationships.strongRelationship.push({
+                            "entityName": mapEntity.entityName,
+                            "relationshipType": null,
+                            "attributes": [{
+                                name: primaryKeyAttrForMapEntity.name,
+                                type: primaryKeyAttrForMapEntity.type
+                            }]
+                        });
+
+                        var $newNode = $('.node' + ($scope.selectedEntities.length - 1));
+
+                        //$newNode.css('left', '500px').css('top', (($scope.selectedEntities.length - 1) * 120).toFixed());
+
+
+                        mySVG.circularpositon();
+
+
+                        mySVG.drawLine({
+                            left_node: '.node0',
+                            right_node: '.node' + ($scope.selectedEntities.length - 1),
+                            horizantal_gap: 10,
+                            relationlabel: "Choose"
+                        });
+                        mySVG.redrawLines();
+
+                        $(".nodes").draggable({
+                            //helper: 'clone',
+                            //appendTo: '#nodescontainer',
+                            //containment: 'parent',
+                            drag: function (event, ui) {
+                                mySVG.redrawLines();
+                            },
+                            stop: function () {
+                                console.log('dropped');
+                            }
+                        });
+
+                    }
+                    $scope.mapEntity = undefined;
+                }, 100);
+
+            };
+            // show clicked entity to map relation end
+
+
+            // context-menu start
+            $('#drawing-area').find('svg').bind('click dblclick', 'g', function (e) {
+                e.preventDefault()
+                e.stopImmediatePropagation()
+            });
+
+
+            // context-menu start
+
+            // mapped relation svg start
+
+            //mapped relation entity end
+
+
+            // export to excel start
+            $scope.exportData = function () {
+                var blob = new Blob([document.getElementById('exportable').innerHTML], {
+                    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+                });
+                saveAs(blob, "Report.xls");
+            }; // export to excel end
+
+
+        }]);
+});

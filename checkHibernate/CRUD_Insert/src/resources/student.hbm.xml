@@ -1,0 +1,16 @@
+
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class name="beans.Student" table="Student" schema="david">
+<!-- here schema is nothing but database  -->
+<id name="id"/>
+<property name="name"/>
+<property name="email"/>
+<property name="marks"/>
+<!--  <property name="age" not-null="true"/>  -->
+</class>
+
+</hibernate-mapping>

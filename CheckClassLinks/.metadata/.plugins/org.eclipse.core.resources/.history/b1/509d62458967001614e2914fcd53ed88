@@ -1,0 +1,17 @@
+package list.person.object;
+
+import list.person.object.Person;
+import list.person.object.DataUtil;
+public class Main {
+
+	public static void main(String[] args) {
+		
+		int s=DataUtil.getPersonData().get(0).getAge();
+		System.out.println(s);
+		Person p1=new Person();
+		String name=p1.getName();
+		System.out.println(name);
+		
+		
+	}
+}

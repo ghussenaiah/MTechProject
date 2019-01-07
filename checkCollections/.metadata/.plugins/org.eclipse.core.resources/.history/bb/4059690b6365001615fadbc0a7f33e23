@@ -1,0 +1,5 @@
+package Map.Collection;
+
+public class LinkedHash_Collection {
+
+}

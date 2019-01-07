@@ -1,0 +1,68 @@
+package test;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.PropertyProjection;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
+import org.hibernate.query.Query;
+
+import beans.Student;
+
+
+
+public class QueryCache{
+
+	public static void main(String args[]){
+	try{
+Configuration cfg=new Configuration();
+	
+	cfg.configure("resources/hibernate.cfg.xml");
+                                                
+	SessionFactory ss=cfg.buildSessionFactory();
+
+	System.out.println("using first query");
+     	   Session sss1= ss.openSession();
+     	 
+      Query q1=sss1.createQuery("select name from student");
+
+      q1.setCacheable(true);
+      
+      List<String> list=q1.list();
+      for(String name:list){
+    	  System.out.println(name);
+      }
+       
+      
+  	System.out.println("using second query");
+	  
+	 
+Query q2=sss1.createQuery("select name from student");
+
+q2.setCacheable(true);
+
+List<String> list1=q1.list();
+for(String name1:list1){
+	  System.out.println(name1);
+}
+
+
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+}
+}

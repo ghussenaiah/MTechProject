@@ -1,0 +1,7 @@
+package Compare.requiredType;
+
+import java.util.Comparator;
+
+public class ComImpl implements Comparator<T> {
+
+}

@@ -1,0 +1,50 @@
+package test;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+
+import beans.Student;
+
+
+public class Client {
+
+	public static void main(String args[]){
+	try{
+Configuration cfg=new Configuration();
+	
+	cfg.configure("resources/hibernate.cfg.xml");
+                                                
+	SessionFactory ss=cfg.buildSessionFactory();
+
+	   Session sss= ss.openSession();
+	  
+                      Criteria c=sss.createCriteria(Student.class);
+                      
+                     List<Student> list=c.list();
+
+                      for(Student s:list){
+                    	  System.out.println(s.getId());
+                      }
+	   
+	   
+                   
+       
+       
+       
+       
+	   sss.close();ss.close();
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+}
+}

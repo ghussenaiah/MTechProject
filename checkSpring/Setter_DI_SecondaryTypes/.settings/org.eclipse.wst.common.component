@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Setter_DI_SecondaryTypes">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="Setter_DI_SecondaryTypes"/>
+        <property name="java-output-path" value="/Setter_DI_SecondaryTypes/build/classes"/>
+    </wb-module>
+</project-modules>

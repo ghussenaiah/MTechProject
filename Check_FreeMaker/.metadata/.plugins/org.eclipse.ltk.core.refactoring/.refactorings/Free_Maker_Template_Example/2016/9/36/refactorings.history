@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;helloworld.ftl&apos; to &apos;Free_Maker_Template_Example/src/resources&apos;&#x0D;&#x0A;- Original project: &apos;Free_Maker_Template_Example&apos;&#x0D;&#x0A;- Destination element: &apos;Free_Maker_Template_Example/src/resources&apos;&#x0D;&#x0A;- Original element: &apos;helloworld.ftl&apos;" description="Copy file" destination="/src&lt;resources" element1="helloworld.ftl" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1472924577871" units="0" version="1.0"/>
+</session>

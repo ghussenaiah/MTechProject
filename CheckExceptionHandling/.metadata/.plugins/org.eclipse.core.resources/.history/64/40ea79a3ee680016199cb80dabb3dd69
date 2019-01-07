@@ -1,0 +1,5 @@
+package Nested.Exception;
+
+public class TestThrow1 {
+
+}

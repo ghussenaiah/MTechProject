@@ -1,0 +1,25 @@
+
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class name="beans.Student" table="Student" schema="david">
+<!-- here schema is nothing but database  -->
+<id name="id">
+<generator class="sequence">
+
+  <param name="sequence">jntu_seq2</param> 
+<!-- <generator class="increment"> -->
+<!--   identity in case of mysql only
+       sequenes in case of sql only 
+       native method works for both-->
+</generator>
+</id>
+<property name="name"/>
+<property name="email"/>
+<property name="marks"/>
+
+</class>
+
+</hibernate-mapping>

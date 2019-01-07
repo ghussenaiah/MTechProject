@@ -1,0 +1,22 @@
+
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">		
+<beans>
+
+
+
+<!-- order it will create
+<bean id="a" class="beans.A"/>
+<bean id="b" class="beans.B"/>
+<bean id="c" class="beans.C"/> -->
+
+<bean id="a" class="beans.A" depends-on="b"/>
+<bean id="b" class="beans.B" depends-on="c"/>
+<bean id="c" class="beans.C"/>
+
+
+
+
+
+</beans>

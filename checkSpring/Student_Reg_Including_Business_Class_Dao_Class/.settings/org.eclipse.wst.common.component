@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Student_Reg_Including_Business_Class_Dao_Class">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="Student_Reg_Including_Business_Class_Dao_Class"/>
+        <property name="java-output-path" value="/Student_Reg_Including_Business_Class_Dao_Class/build/classes"/>
+    </wb-module>
+</project-modules>

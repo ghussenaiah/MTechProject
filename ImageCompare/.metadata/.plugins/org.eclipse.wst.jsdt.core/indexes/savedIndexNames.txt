@@ -1,0 +1,7 @@
+INDEX VERSION 1.3+C:\Users\DavidHusen\workspace\ImageCompare\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3148612870.index
+2485270547.index
+1540186230.index
+1446333727.index
+3288732145.index
+2718985592.index

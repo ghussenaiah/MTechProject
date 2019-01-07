@@ -1,0 +1,23 @@
+package list.person.object;
+
+import java.util.ArrayList;
+import java.util.List;
+import list.person.object.Person;
+
+public class DataUtil {
+
+	
+	public static List<Person> getPersonData()
+	{
+		
+		Person p1=new Person("aa",20,"ind");
+		Person p2=new Person("bb",40,"pak");
+		Person p3=new Person("cc",50,"sri");
+		
+		List<Person> plist=new ArrayList<>();
+		plist.add(p1);
+		plist.add(p2);
+		plist.add(p3);
+		return plist;
+	}
+}

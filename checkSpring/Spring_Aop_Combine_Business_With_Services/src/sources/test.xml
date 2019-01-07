@@ -1,0 +1,37 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">
+	
+	
+	
+	<beans>
+		
+		<bean id="b" class="business.Bank"/>
+		<bean id="lb" class="services.LogBeforeService"/>
+		
+		<bean id="ara" class="services.Afetr_Returning_Advice"/>
+		
+		<bean id="las" class="services.LogAroundService"/>
+		
+		<!-- here we are creating all bean instances and passing all those in interceptor as string array
+		
+		it will execute all services now
+		 -->
+		
+		<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		
+	
+		<property name="target" ref="b"/>
+		<property name="interceptorNames">
+		
+		<list>
+		<value>lb</value>
+		<value>ara</value>
+		<value>las</value>
+		</list>
+		</property>
+		</bean>
+		
+		</beans>
+		
+		
+		

@@ -1,0 +1,11 @@
+package Date;
+
+import java.text.DateFormat;  
+
+import java.sql.Date;
+public class DateFormatExample3 {  
+    public static void main(String[] args)throws Exception {  
+        Date d = (Date) DateFormat.getDateInstance().parse("31Mar2015");  
+        System.out.println("Date is: "+d);  
+    }  
+}  

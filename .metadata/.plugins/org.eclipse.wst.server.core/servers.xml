@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<servers>
+  <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers/Tomcat v7.0 Server at localhost-config" deployDir="wtpwebapps" hostname="localhost" id="Tomcat v7.0 Server at localhost" name="Tomcat v7.0 Server at localhost" runtime-id="Apache Tomcat v7.0" server-type="org.eclipse.jst.server.tomcat.70" server-type-id="org.eclipse.jst.server.tomcat.70" start-timeout="45" stop-timeout="15" testEnvironment="true" timestamp="11">
+    <list key="modules" value0="MySqlConnection::org.eclipse.jst.jee.server:MySqlConnection::jst.web::3.0" value1="Test1::org.eclipse.jst.jee.server:Test1::jst.web::3.0" value2="New::org.eclipse.jst.jee.server:New::jst.web::3.0" value3="TestProject4::org.eclipse.jst.jee.server:TestProject4::jst.web::3.0" value4="codezone4::org.eclipse.jst.jee.server:codezone4::jst.web::3.0" value5="codezone5::org.eclipse.jst.jee.server:codezone5::jst.web::3.0" value6="TestProject2::org.eclipse.jst.jee.server:TestProject2::jst.web::3.0" value7="codezone6::org.eclipse.jst.jee.server:codezone6::jst.web::3.0" value8="Test12::org.eclipse.jst.jee.server:Test12::jst.web::3.0"/>
+  </server>
+</servers>

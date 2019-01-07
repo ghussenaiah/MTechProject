@@ -1,0 +1,20 @@
+
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">		
+<beans>
+
+
+<!-- to activate annotation we have to import "RequiredAnnotationBeanPostProcessor" class -->
+<bean id="annotation" class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+<bean id="my" class="beans.Mysql">
+
+<property name="driver" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="system" />
+		<property name="password" value="root" />
+</bean> 
+
+
+
+</beans>

@@ -1,0 +1,21 @@
+2016-09-19 23:46:33,759 [Worker-5] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.bcv.kagami:kagami-erp-generated:1.0-SNAPSHOT @ C:\Users\Public\test\kagami-generated\pom.xml.
+2016-09-19 23:46:58,896 [Worker-5] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /kagami-erp-generated/src/main/java
+2016-09-19 23:46:58,897 [Worker-5] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /kagami-erp-generated/src/main/resources
+2016-09-19 23:46:58,907 [Worker-5] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /kagami-erp-generated/src/test/java
+2016-09-19 23:47:25,204 [Worker-5] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 1 project(s) in 60 sec
+2016-09-19 23:47:38,510 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-09-19 23:47:38,521 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 29 resources
+2016-09-19 23:47:39,470 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-09-19 23:47:39,471 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Public\test\kagami-generated\src\test\resources
+2016-09-19 23:49:00,472 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-09-19 23:49:00,478 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2016-09-19 23:49:00,483 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-09-19 23:49:00,483 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Public\test\kagami-generated\src\test\resources
+2016-09-19 23:55:00,424 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-09-19 23:55:00,439 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 29 resources
+2016-09-19 23:55:00,496 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-09-19 23:55:00,497 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Public\test\kagami-generated\src\test\resources
+2016-09-20 00:03:44,066 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-09-20 00:03:44,079 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 29 resources
+2016-09-20 00:03:44,295 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2016-09-20 00:03:44,295 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Public\test\kagami-generated\src\test\resources

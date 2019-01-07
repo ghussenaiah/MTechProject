@@ -1,0 +1,5 @@
+package Custom.Exception;
+
+public class CustomExceptionDemo {
+
+}

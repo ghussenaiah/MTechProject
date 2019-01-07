@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=ConnectionPool/src&lt;dao{StudentDaoI.java[StudentDaoI" modifiers="513" timestamp="1471166230253"/>
+<typeInfo handle="=Connection_SimpleJDBC/src&lt;dao{StudentDaoI.java[StudentDaoI" modifiers="513" timestamp="1471180343593"/>
+<typeInfo handle="=Connection_SimpleJDBC/src&lt;business{StdentBI.java[StdentBI" modifiers="513" timestamp="1471179517955"/>
+<typeInfo handle="=ORM_Spring_Hibernate_Template/src&lt;dao{StudentDaoInterface.java[StudentDaoInterface" modifiers="513" timestamp="1472288042209"/>
+<typeInfo handle="=Student_Reg_Including_Business_Class_Dao_Class/src&lt;dao{StudentDaoInterface.java[StudentDaoInterface" modifiers="513" timestamp="1472308841881"/>
+<typeInfo handle="=Student_Reg_Including_Business_Class_Dao_Class/src&lt;business{StudentBInterface.java[StudentBInterface" modifiers="513" timestamp="1472308802819"/>
+</typeInfoHistroy>

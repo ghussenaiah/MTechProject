@@ -1,0 +1,26 @@
+package beans;
+
+public class Admin extends Employee{
+	
+	private String branchname;
+
+	public String getBranchname() {
+		return branchname;
+	}
+
+	public void setBranchname(String branchname) {
+		this.branchname = branchname;
+	}
+
+	public Admin() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Admin(int id, String name, String email, int salary) {
+		super(id, name, email, salary);
+		// TODO Auto-generated constructor stub
+	}
+	
+
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1472054933739_0" label="KagamiPOC" name="KagamiPOC">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-session" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-design" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-drool-drl" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/RoleRuntime" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-datasource" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-code-generator" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/UserRoles" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/KagamiPOC" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-ui-generator" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-utilities" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/RoleManagement" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/RoleService" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-verb-runtime" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-bpm-web" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-transaction" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-commons" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/kagami-verb" type="4"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1472226786039_1" label="Window Working Set" name="Aggregate for window 1472226786038"/>
+</workingSetManager>

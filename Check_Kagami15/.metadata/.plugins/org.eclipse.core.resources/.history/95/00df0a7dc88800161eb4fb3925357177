@@ -1,0 +1,220 @@
+package com.bcv.kagami.modules.service;
+
+(No subject)
+
+Sushant Kumar
+   Reply all|
+Fri 9/30, 1:22 PM
+Yamini Venugopal;
+Anitha Gundu;
+Husenaiah Gandham 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bcv.kagami.modules.service;
+
+import com.bcv.kagami.commons.platform.service.MetaDataService;
+import com.bcv.kagami.session.context.ComputeContextInput;
+import com.bcv.kagami.session.context.ComputeContextOutput;
+import com.bcv.kagami.session.context.TreeDataSet;
+import com.bcv.kagami.session.context.TreeInputData;
+import com.bcv.kagami.session.context.TreeOutputData;
+import com.bcv.kagami.session.context.VerbPropertyType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+/**
+ *
+ * @author SushantKumar
+ */
+public class ComputeServiceTest {
+    
+    public ComputeServiceTest() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of setUp method, of class ComputeService.
+     */
+    //@Test
+    public void testSetUp() {
+        System.out.println("setUp");
+        ComputeService instance = new ComputeService();
+        instance.setUp();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    
+
+    /**
+     * Test of executeCompute method, of class ComputeService.
+     */
+    //@Test
+    public void testExecuteCompute() throws Exception {
+        System.out.println("executeCompute");
+        ComputeContextInput computeContextInput = null;
+        ComputeService instance = new ComputeService();
+        ComputeContextOutput expResult = null;
+        ComputeContextOutput result = instance.executeCompute(computeContextInput);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of computeExpression method, of class ComputeService.
+     */
+    //@Test
+    public void testComputeExpression() {
+       ComputeContextInput input = new ComputeContextInput();
+       input.setComputeScript("c=b+a");
+       Map<String,Object> map = new HashMap<>();
+       map.put("a", 10);
+       map.put("b", 15);
+       map.put("c", 10);
+       input.setEntityMap(map);
+       try {
+           ComputeContextOutput out = new ComputeService().executeCompute(input);
+           Map<String, Object> outputAllVarMap = out.getOutputAllVarMap();
+           if(outputAllVarMap.containsKey("c")) {
+               System.out.println("c = "+outputAllVarMap.get("c"));
+           }
+       } catch(Exception ex) {
+           ex.printStackTrace();
+       }
+       
+    }
+    
+    
+    
+    @Test
+    public void testComputeExpressionWithEntityAndMock() {
+       ComputeContextInput input = Mockito.mock(ComputeContextInput.class);
+       MetaDataService genericDao = Mockito.mock(MetaDataService.class);
+       
+       
+       
+       String script = "se.total = se.mark1+se.mark2+se.mark3; se.average= (se.total)/3;";
+       input.setComputeScript(script);
+       Map<String,Object> map = new HashMap<>();
+       StudentEntity se = new StudentEntity();
+       se.setMark1(50);
+       se.setMark2(60);
+       se.setMark3(70);
+       map.put("se", se);
+       input.setEntityMap(map);
+       Map<String,String> aMap = Mockito.mock(HashMap.class);
+       try {
+           when(genericDao.getMetaDataMapWithPropertyType("a.b",VerbPropertyType.COMPUTE.name())).thenReturn(aMap);
+           when(aMap.size()).thenReturn(1);
+           when(aMap.get("computeScript")).thenReturn(script);
+           when(aMap.get("name")).thenReturn("");
+           
+           TreeDataSet dataSet = new TreeDataSet();
+           
+           Map<String, List<Object>> kmap = new HashMap<>();
+           List<Object> list = new ArrayList<>();
+           list.add(se);
+           kmap.put("se", list);
+           dataSet.setDetailedObjects(kmap);
+           TreeInputData constructContextInput = mock(TreeInputData.class);
+           when(constructContextInput.getProcessName()).thenReturn("a");
+           when(constructContextInput.getStepName()).thenReturn("b");
+           
+           
+           ComputeService service = mock(ComputeService.class);
+           service.genericDao = genericDao;
+           TreeOutputData data = new TreeOutputData();
+           
+           
+           ComputeService ss = new ComputeService();
+           ss.genericDao= genericDao;
+           ss.computeExpression(constructContextInput,data,dataSet);
+           System.out.println("Done.");
+           
+           List list2 = (List)dataSet.getDetailedObjects().get("se");
+           assertEquals(list2.size(), 1);
+           StudentEntity ee = (StudentEntity)list2.get(0);
+           assertEquals(ee.getAverage(), 60);
+           assertEquals(ee.getTotal(), 180);
+       } catch(Exception ex) {
+           ex.printStackTrace();
+       }
+       
+    }
+    
+    
+    
+    
+    
+    //@Test
+    public void testComputeExpressionWithEntity() {
+       ComputeContextInput input = new ComputeContextInput();
+       input.setComputeScript("se.total = se.mark1+se.mark2+se.mark3; se.average= (se.total)/3;");
+       Map<String,Object> map = new HashMap<>();
+       StudentEntity se = new StudentEntity();
+       se.setMark1(50);
+       se.setMark2(60);
+       se.setMark3(70);
+       map.put("se", se);
+       input.setEntityMap(map);
+       try {
+           ComputeContextOutput out = new ComputeService().executeCompute(input);
+           Map<String, Object> outputAllVarMap = out.getOutputEntityMap();
+           if(outputAllVarMap.containsKey("se")) {
+               StudentEntity see = (StudentEntity)outputAllVarMap.get("se");
+               System.out.println("Average Mark -> "+see.getAverage());
+           }
+       } catch(Exception ex) {
+           ex.printStackTrace();
+       }
+       
+    }
+
+    /**
+     * Test of convertMapValToList method, of class ComputeService.
+     */
+   // @Test
+    public void testConvertMapValToList() {
+        System.out.println("convertMapValToList");
+        Map<String, Object> inputMap = null;
+        ComputeService instance = new ComputeService();
+        Map<String, List<Object>> expResult = null;
+        Map<String, List<Object>> result = instance.convertMapValToList(inputMap);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+    
+}
+

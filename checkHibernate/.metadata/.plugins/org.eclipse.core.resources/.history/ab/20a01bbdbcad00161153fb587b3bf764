@@ -1,0 +1,69 @@
+package test;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import beans.Actor;
+import beans.Movies;
+import beans.Vote;
+import beans.Voter;
+
+public class Client {
+
+	public static void main(String args[]){
+	try{
+Configuration cfg=new Configuration();
+	
+	cfg.configure("resources/hibernate.cfg.xml");
+                                                
+	SessionFactory ss=cfg.buildSessionFactory();
+
+	   Session sss= ss.openSession();
+	   Transaction t= sss.beginTransaction();
+	   
+	Voter vo=new Voter();
+    Vote vote=new Vote();
+    
+    vo.setVid(111);
+    vo.setVname("david");
+    vo.setVage(25);
+    
+    
+    vote.setPartyname("bjp");
+    vote.setCdate(new Date());
+    vote.setVoter(vo);
+	   
+	   
+	   
+	   
+
+
+	  
+	  
+	
+	  
+	   
+     sss.save(m1);
+    sss.save(m2); 
+
+    //if i add cascade option in actor.hbm.xml file
+	   //then there is no need to save m1 and m2
+     sss.save(a); 
+       t.commit();                    
+      
+       
+       
+       
+	   sss.close();ss.close();
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+}
+}
